@@ -1,4 +1,17 @@
-.DS_Store
-build/*
+# folders
+
+/build
 !build/.gitkeep
 .vscode/
+.DS_Store
+.cache/
+
+# files
+
+/*.cmake
+/*.o
+/*.exe
+/CMakeFiles
+/Makefile
+/Chess
+/CMakeCache.txt

@@ -1,4 +1,4 @@
-set(PROJECT_NAME sdl2-cpp-project-template)
+set(PROJECT_NAME Chess)
 
 # http://derekmolloy.ie/hello-world-introductions-to-cmake/
 
@@ -22,7 +22,11 @@ project(${PROJECT_NAME})
 
 # Use wildcard to include all source files under /src
 # Can also use GLOB_RECURSE
-file(GLOB SOURCES "src/*.cpp")
+set(SOURCES 
+          src/core/Game.cpp
+          src/core/Game.h
+          src/sdl/Window.h
+          src/main.cpp)
 
 # set(SDL2_INCLUDE_DIRS /Library/Frameworks/SDL2.framework/Headers)
 # set(SDL2_LIBRARIES /Library/Frameworks/SDL2/framework/SDL2)
