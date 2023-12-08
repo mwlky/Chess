@@ -5,13 +5,4 @@
 .vscode/
 .DS_Store
 .cache/
-
-# files
-
-/*.cmake
-/*.o
-/*.exe
-/CMakeFiles
-/Makefile
-/Chess
-/CMakeCache.txt
+/cmake-build-*
