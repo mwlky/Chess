@@ -4,18 +4,27 @@ namespace Chess {
     void GameLoop::Run() {
         Chess::Window window;
 
-        bool he = window.InitWindow("Chess", 100,100, 256, 256);
+        m_IsRunning = window.InitWindow("Chess", 100, 100, 256, 256);
 
-        while (true){
-            if(he){
-                std::cout << "Sucesfully\n" << std::endl;
-            }
-            else{
-
-                std::cout << "Problemo" << std::endl;
-            }
-
+        while (m_IsRunning) {
+            HandleEvents();
         }
 
+        SDL_Quit();
     }
-} // Chess
+
+    void GameLoop::HandleEvents() {
+        SDL_PollEvent(&m_Event);
+
+        SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+
+
+        switch (m_Event.type) {
+
+            case SDL_QUIT:
+                m_IsRunning = false;
+                break;
+
+        }
+    }
+}

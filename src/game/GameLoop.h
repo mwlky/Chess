@@ -10,6 +10,14 @@ namespace Chess {
         GameLoop() = default;
 
         void Run();
+
+    private:
+
+        void HandleEvents();
+
+        SDL_Event m_Event;
+
+        bool m_IsRunning = false;
     };
 
 } // Chess
