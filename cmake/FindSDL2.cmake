@@ -12,9 +12,9 @@
 # ::
 #
 # SDL2_LIBRARY, the name of the library to link against
-# SDL2_FOUND, if false, do not try to link to SDL
-# SDL2_INCLUDE_DIR, where to find SDL.h
-# SDL2_VERSION_STRING, human-readable string containing the version of SDL
+# SDL2_FOUND, if false, do not try to link to sdl
+# SDL2_INCLUDE_DIR, where to find sdl.h
+# SDL2_VERSION_STRING, human-readable string containing the version of sdl
 #
 #
 #
@@ -39,9 +39,9 @@
 #
 #
 # Additional Note: If you see an empty SDL2_LIBRARY_TEMP in your
-# configuration and no SDL2_LIBRARY, it means CMake did not find your SDL
-# library (SDL.dll, libsdl.so, SDL.framework, etc). Set
-# SDL2_LIBRARY_TEMP to point to your SDL library, and configure again.
+# configuration and no SDL2_LIBRARY, it means CMake did not find your sdl
+# library (sdl.dll, libsdl.so, sdl.framework, etc). Set
+# SDL2_LIBRARY_TEMP to point to your sdl library, and configure again.
 # Similarly, if you see an empty SDLMAIN_LIBRARY, you should set this
 # value as appropriate. These values are used to generate the final
 # SDL2_LIBRARY variable, but when these values are unset, SDL2_LIBRARY
@@ -50,13 +50,13 @@
 #
 #
 # $SDL2DIR is an environment variable that would correspond to the
-# ./configure --prefix=$SDL2DIR used in building SDL. l.e.galup 9-20-02
+# ./configure --prefix=$SDL2DIR used in building sdl. l.e.galup 9-20-02
 #
 # Modified by Eric Wing. Added code to assist with automated building
 # by using environmental variables and providing a more
 # controlled/consistent search behavior. Added new modifications to
 # recognize OS X frameworks and additional Unix paths (FreeBSD, etc).
-# Also corrected the header search path to follow "proper" SDL
+# Also corrected the header search path to follow "proper" sdl
 # guidelines. Added a search for SDLmain which is needed by some
 # platforms. Added a search for threads which is needed by some
 # platforms. Added needed compile switches for MinGW.
@@ -66,10 +66,10 @@
 # override this selection or set the CMake environment
 # CMAKE_INCLUDE_PATH to modify the search paths.
 #
-# Note that the header path has changed from SDL/SDL.h to just SDL.h
-# This needed to change because "proper" SDL convention is #include
-# "SDL.h", not <SDL/SDL.h>. This is done for portability reasons
-# because not all systems place things in SDL/ (see FreeBSD).
+# Note that the header path has changed from sdl/sdl.h to just sdl.h
+# This needed to change because "proper" sdl convention is #include
+# "sdl.h", not <sdl/sdl.h>. This is done for portability reasons
+# because not all systems place things in sdl/ (see FreeBSD).
 
 if(NOT SDL2_DIR)
   set(SDL2_DIR "" CACHE PATH "SDL2 directory")
@@ -124,7 +124,7 @@ if(NOT SDL2_BUILDING_LIBRARY)
   endif()
 endif()
 
-# SDL may require threads on your system.
+# sdl may require threads on your system.
 # The Apple build may not need an explicit flag because one of the
 # frameworks may already provide it.
 # But for non-OSX systems, I will use the CMake Threads package.
@@ -148,7 +148,7 @@ if(SDL2_LIBRARY_TEMP)
     unset(_SDL2_MAIN_INDEX)
   endif()
 
-  # For OS X, SDL uses Cocoa as a backend so it must link to Cocoa.
+  # For OS X, sdl uses Cocoa as a backend so it must link to Cocoa.
   # CMake doesn't display the -framework Cocoa string in the UI even
   # though it actually is there if I modify a pre-used variable.
   # I think it has something to do with the CACHE STRING.

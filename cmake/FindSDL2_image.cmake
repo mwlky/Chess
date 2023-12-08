@@ -30,7 +30,7 @@
 #
 #
 # $SDLDIR is an environment variable that would correspond to the
-# ./configure --prefix=$SDLDIR used in building SDL.
+# ./configure --prefix=$SDLDIR used in building sdl.
 #
 # Created by Eric Wing. This was influenced by the FindSDL.cmake
 # module, but with modifications to recognize OS X frameworks and

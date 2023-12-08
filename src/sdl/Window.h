@@ -1,57 +1,29 @@
-#pragma once
+#ifndef CHESS_WINDOW_H
+#define CHESS_WINDOW_H
 
-#include "SDL_error.h"
-#include "SDL_render.h"
-#include "SDL_video.h"
 #include <iostream>
-#include <SDL2/SDL.h>
+
+#include "SDL.h"
+#include "SDL_image.h"
 
 namespace Chess{
 
-class Window {
+    class Window {
 
-public:
-  Window();
-  ~Window();
+    public:
+        Window() = default;
+        ~Window();
 
-  bool InitWindow() {
-    bool quit = false;
-    SDL_Event event;
+        bool InitWindow(const char* title, int x, int y, int w, int h);
 
-    if(SDL_Init(SDL_INIT_VIDEO) != 0){
+        static SDL_Window* GameWindow;
+        static SDL_Renderer* Renderer;
+    };
 
-        std::cout << "Failed SDL init" << SDL_GetError() <<std::endl;
-        return false;
-    }
-    
-    SDL_Window *window =
-        SDL_CreateWindow("Chess", SDL_WINDOWPOS_UNDEFINED,
-                         SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
-
-    if(!window){
-
-      std::cout << "Failed window init!" << SDL_GetError() << std::endl;
-
-      return false;
-    }
+}
 
 
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
-    if(!renderer){
 
-      std::cout << "Failed init renderer! " << SDL_GetError() << std::endl;
-      return false;
-    }
 
-    SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
-
-    return true;
-  }
-
-  static SDL_Renderer* Renderer;
-  static SDL_Window* GameWindow;
-
-private:
-};
-} // namespace Chess::SDL
+#endif //CHESS_WINDOW_H

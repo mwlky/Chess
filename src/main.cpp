@@ -1,7 +1,9 @@
-#include "core/Game.h"
+#include "game/GameLoop.h"
 
-int main(int argc, const char* argv[])
-{
-    Chess::Game game;
-    game.Run();
+int main() {
+
+    Chess::GameLoop gameLoop;
+    gameLoop.Run();
+
+    return 0;
 }
