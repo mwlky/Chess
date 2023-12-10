@@ -2,6 +2,10 @@
 #define CHESS_GAMELOOP_H
 
 #include "../sdl/Window.h"
+#include "../board/Board.h"
+
+#define SCREEN_WIDTH 750
+#define SCREEN_HEIGHT 750
 
 namespace Chess {
 

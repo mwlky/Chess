@@ -1,26 +1,27 @@
 #include "Window.h"
 
 namespace Chess {
-
-    SDL_Renderer* Chess::Window::Renderer = nullptr;
-    SDL_Window* Chess::Window::GameWindow = nullptr;
-
     bool Chess::Window::InitWindow(const char *title, int x, int y, int w, int h) {
 
-        if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-            std::cerr << "sdl Init error: " << SDL_GetError() << std::endl;
+        if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+            std::cerr << "SDL Init error: " << SDL_GetError() << std::endl;
             return false;
         }
 
-        GameWindow = SDL_CreateWindow(title, x, y, w, h, SDL_RENDERER_ACCELERATED);
-        if(!GameWindow){
+        if(IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG){
+            std::cerr << "SDL Image error: " << SDL_GetError() << std::endl;
+            return false;
+        }
+
+        m_Window = SDL_CreateWindow(title, x, y, w, h, SDL_WINDOW_SHOWN | SDL_RENDERER_ACCELERATED);
+        if(!m_Window){
 
             std::cerr << "Window creation error: " << SDL_GetError() << std::endl;
             return false;
         }
 
-        Renderer = SDL_CreateRenderer(GameWindow, 0, 0);
-        if(!Renderer){
+        m_Renderer = SDL_CreateRenderer(m_Window, -1, SDL_RENDERER_ACCELERATED);
+        if(!m_Renderer){
 
             std::cerr << "Renderer creation error: " << SDL_GetError() << std::endl;
             return false;
@@ -30,8 +31,8 @@ namespace Chess {
     }
 
     Window::~Window() {
-        SDL_DestroyWindow(GameWindow);
-        SDL_DestroyRenderer(Renderer);
+        SDL_DestroyWindow(m_Window);
+        SDL_DestroyRenderer(m_Renderer);
     }
 }
 

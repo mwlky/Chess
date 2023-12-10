@@ -16,8 +16,17 @@ namespace Chess{
 
         bool InitWindow(const char* title, int x, int y, int w, int h);
 
-        static SDL_Window* GameWindow;
-        static SDL_Renderer* Renderer;
+        SDL_Window* GetWindow() const {
+            return m_Window;
+        }
+
+        SDL_Renderer* GetRenderer() const {
+            return m_Renderer;
+        }
+
+    private:
+        SDL_Window* m_Window = nullptr;
+        SDL_Renderer* m_Renderer = nullptr;
     };
 
 }
