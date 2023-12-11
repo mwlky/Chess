@@ -1,6 +1,7 @@
 # folders
 
 /build
+./idea/
 !build/.gitkeep
 .vscode/
 .DS_Store

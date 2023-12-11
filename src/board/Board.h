@@ -1,17 +1,29 @@
 #ifndef CHESS_BOARD_H
 #define CHESS_BOARD_H
 
+#include "../sdl/Window.h"
 #include "SDL.h"
 #include "SDL_image.h"
-#include "../sdl/Window.h"
+#include "Square.h"
+#include "../sdl/SpriteManager.h"
+
+#define BLACK_SQUARE "../assets/black.png"
+#define WHITE_SQUARE "../assets/white.png"
 
 namespace Chess {
 
-    class Board {
-    public:
-        void RenderBoard(SDL_Renderer* renderer, int screenWidth, int screenHeight);
-    };
+struct Squares {
+  Square squares[8][8];
+};
 
-} // Chess
+class Board {
+public:
+  Squares CreateBoard(SDL_Renderer *renderer, int screenWidth,
+                      int screenHeight);
 
-#endif //CHESS_BOARD_H
+  void RenderBoard(SDL_Renderer *renderer, Squares squares);
+};
+
+} // namespace Chess
+
+#endif // CHESS_BOARD_H
