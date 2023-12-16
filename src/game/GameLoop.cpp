@@ -1,4 +1,8 @@
 #include "GameLoop.h"
+#include "SDL_events.h"
+#include "SDL_mouse.h"
+
+#define LOG(x) std::cout << x
 
 namespace Chess {
 void GameLoop::Run() {
@@ -8,9 +12,8 @@ void GameLoop::Run() {
       window.InitWindow("Chess", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT);
 
   SDL_Renderer *renderer = window.GetRenderer();
-  Chess::Board board;
 
-  Squares squares = board.CreateBoard(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+  Squares squares = m_Board.CreateBoard(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
   while (m_IsRunning) {
 
@@ -30,7 +33,7 @@ void GameLoop::Run() {
     }
 
     HandleEvents();
-    board.RenderBoard(renderer, squares);
+    m_Board.RenderBoard(renderer, squares);
 
     SDL_RenderPresent(window.GetRenderer());
   }
@@ -49,6 +52,25 @@ void GameLoop::HandleEvents() {
   case SDL_QUIT:
     m_IsRunning = false;
     break;
+
+  case SDL_MOUSEBUTTONDOWN:
+      MouseEvent();
+    break;
   }
+}
+
+void GameLoop::MouseEvent() {
+  int mouseX = 0;
+  int mouseY = 0;
+
+  SDL_GetMouseState(&mouseX, &mouseY);
+
+  LOG("x:");
+  LOG(mouseX / 80);
+  LOG("\n");
+
+LOG("y:");
+  LOG(mouseY / 80);
+  LOG("\n");
 }
 } // namespace Chess

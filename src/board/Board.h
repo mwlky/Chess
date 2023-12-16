@@ -22,6 +22,7 @@ public:
                       int screenHeight);
 
   void RenderBoard(SDL_Renderer *renderer, Squares squares);
+  void TakePiece(int x, int y);
 };
 
 } // namespace Chess

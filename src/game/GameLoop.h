@@ -1,29 +1,31 @@
 #ifndef CHESS_GAMELOOP_H
 #define CHESS_GAMELOOP_H
 
-#include "../sdl/Window.h"
 #include "../board/Board.h"
+#include "../sdl/Window.h"
 
 #define SCREEN_WIDTH 750
 #define SCREEN_HEIGHT 750
 
 namespace Chess {
 
-    class GameLoop {
-    public:
-        GameLoop() = default;
+class GameLoop {
+public:
+  GameLoop() = default;
 
-        void Run();
+  void Run();
 
-    private:
+private:
+  void HandleEvents();
+  void MouseEvent();
 
-        void HandleEvents();
+  Chess::Board m_Board;
 
-        SDL_Event m_Event;
+  SDL_Event m_Event;
 
-        bool m_IsRunning = false;
-    };
+  bool m_IsRunning = false;
+};
 
-} // Chess
+} // namespace Chess
 
-#endif //CHESS_GAMELOOP_H
+#endif // CHESS_GAMELOOP_H
