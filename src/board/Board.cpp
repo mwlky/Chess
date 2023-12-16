@@ -9,10 +9,11 @@ void Board::RenderBoard(Squares squares) {
       squares.squares[i][j].Render();
     }
   }
+
+  m_Pawn.Render();
 }
 
-Squares Board::CreateBoard(int screenWidth,
-                           int screenHeight) {
+Squares Board::CreateBoard(int screenWidth, int screenHeight) {
   Squares squares;
 
   bool white = true;
@@ -38,6 +39,7 @@ Squares Board::CreateBoard(int screenWidth,
     }
     white = !white;
 
+    m_Pawn = *new Pawn("../assets/Chess_Pawn_Black.png", Site::BLACK, 0, 0);
   }
 
   return squares;
