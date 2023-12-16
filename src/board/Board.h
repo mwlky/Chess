@@ -18,10 +18,10 @@ struct Squares {
 
 class Board {
 public:
-  Squares CreateBoard(SDL_Renderer *renderer, int screenWidth,
+  Squares CreateBoard(int screenWidth,
                       int screenHeight);
 
-  void RenderBoard(SDL_Renderer *renderer, Squares squares);
+  void RenderBoard(Squares squares);
   void TakePiece(int x, int y);
 };
 

@@ -1,6 +1,11 @@
 #include "Window.h"
+#include "SDL_render.h"
 
 namespace Chess {
+
+    SDL_Window* Window::CurrentWindow = nullptr; 
+    SDL_Renderer* Window::Renderer = nullptr;
+
     bool Chess::Window::InitWindow(const char *title, int x, int y, int w, int h) {
 
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -26,6 +31,9 @@ namespace Chess {
             std::cerr << "Renderer creation error: " << SDL_GetError() << std::endl;
             return false;
         }
+
+        CurrentWindow = m_Window;
+        Renderer = m_Renderer;
 
         return true;
     }

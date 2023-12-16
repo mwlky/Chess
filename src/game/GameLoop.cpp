@@ -11,31 +11,29 @@ void GameLoop::Run() {
   m_IsRunning =
       window.InitWindow("Chess", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-  SDL_Renderer *renderer = window.GetRenderer();
-
-  Squares squares = m_Board.CreateBoard(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+  Squares squares = m_Board.CreateBoard(SCREEN_WIDTH, SCREEN_HEIGHT);
 
   while (m_IsRunning) {
 
-    if (window.GetRenderer() == nullptr) {
+    if (Window::Renderer == nullptr) {
       std::cout << "Renderer is null" << std::endl;
       break;
     }
 
-    if (window.GetWindow() == nullptr) {
+    if (Window::CurrentWindow == nullptr) {
       std::cout << "Window is null" << std::endl;
       break;
     }
 
-    if (SDL_RenderClear(window.GetRenderer())) {
+    if (SDL_RenderClear(Window::Renderer)) {
       std::cerr << "Render error!" << SDL_GetError() << std::endl;
       break;
     }
 
     HandleEvents();
-    m_Board.RenderBoard(renderer, squares);
+    m_Board.RenderBoard(squares);
 
-    SDL_RenderPresent(window.GetRenderer());
+    SDL_RenderPresent(Window::Renderer);
   }
 
   SDL_Quit();
@@ -54,7 +52,7 @@ void GameLoop::HandleEvents() {
     break;
 
   case SDL_MOUSEBUTTONDOWN:
-      MouseEvent();
+    MouseEvent();
     break;
   }
 }
@@ -69,7 +67,7 @@ void GameLoop::MouseEvent() {
   LOG(mouseX / 80);
   LOG("\n");
 
-LOG("y:");
+  LOG("y:");
   LOG(mouseY / 80);
   LOG("\n");
 }

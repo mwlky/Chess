@@ -5,6 +5,8 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
+#include "SDL_render.h"
+#include "SDL_video.h"
 
 namespace Chess{
 
@@ -16,13 +18,16 @@ namespace Chess{
 
         bool InitWindow(const char* title, int x, int y, int w, int h);
 
-        SDL_Window* GetWindow() const {
-            return m_Window;
-        }
+        // SDL_Window* GetWindow() const {
+        //     return m_Window;
+        // }
 
-        SDL_Renderer* GetRenderer() const {
-            return m_Renderer;
-        }
+        // SDL_Renderer* GetRenderer() const {
+        //     return m_Renderer;
+        // }
+
+        static SDL_Window* CurrentWindow;
+        static SDL_Renderer* Renderer;
 
     private:
         SDL_Window* m_Window = nullptr;

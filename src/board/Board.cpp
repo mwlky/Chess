@@ -1,7 +1,7 @@
 #include "Board.h"
 
 namespace Chess {
-void Board::RenderBoard(SDL_Renderer *renderer, Squares squares) {
+void Board::RenderBoard(Squares squares) {
 
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 8; j++) {
@@ -11,7 +11,7 @@ void Board::RenderBoard(SDL_Renderer *renderer, Squares squares) {
   }
 }
 
-Squares Board::CreateBoard(SDL_Renderer *renderer, int screenWidth,
+Squares Board::CreateBoard(int screenWidth,
                            int screenHeight) {
   Squares squares;
 
@@ -31,7 +31,7 @@ Squares Board::CreateBoard(SDL_Renderer *renderer, int screenWidth,
       SDL_Rect rect = {x * screenWidth / 8, y * screenHeight / 8,
                        screenWidth / 8, screenHeight / 8};
 
-      Square square(path, renderer, rect);
+      Square square(path, Window::Renderer, rect);
       squares.squares[x][y] = square;
 
       white = !white;
