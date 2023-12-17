@@ -10,7 +10,6 @@ namespace Chess {
     }
 
     Pawn::~Pawn(){
-
         SDL_DestroyTexture(m_Texture);
     }
 

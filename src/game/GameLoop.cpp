@@ -12,29 +12,20 @@ namespace Chess {
 
         m_Board.CreateBoard(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+        Uint32 frameStart;
+        double frameTime;
+
         while (m_IsRunning) {
+            frameStart = SDL_GetTicks();
 
-            if (Window::Renderer == nullptr) {
-                std::cout << "Renderer is null" << std::endl;
-                break;
+            Tick();
+
+            frameTime = SDL_GetTicks() - frameStart;
+
+            if (FrameDelay > frameTime)
+            {
+                SDL_Delay(FrameDelay - frameTime);
             }
-
-            if (Window::CurrentWindow == nullptr) {
-                std::cout << "Window is null" << std::endl;
-                break;
-            }
-
-            if (SDL_RenderClear(Window::Renderer)) {
-                std::cerr << "Render error!" << SDL_GetError() << std::endl;
-                break;
-            }
-
-            HandleEvents();
-
-            m_Board.RenderBoard();
-            m_Board.MoveDraggedPawn();
-
-            SDL_RenderPresent(Window::Renderer);
         }
 
         SDL_Quit();
@@ -67,6 +58,30 @@ namespace Chess {
 
     void GameLoop::MovePiece(int x, int y) {
         m_Board.TakePiece(x, y);
+    }
+
+    void GameLoop::Tick() {
+        if (Window::Renderer == nullptr) {
+            std::cout << "Renderer is null" << std::endl;
+            return;
+        }
+
+        if (Window::CurrentWindow == nullptr) {
+            std::cout << "Window is null" << std::endl;
+            return;
+        }
+
+        if (SDL_RenderClear(Window::Renderer)) {
+            std::cerr << "Render error!" << SDL_GetError() << std::endl;
+            return;
+        }
+
+        HandleEvents();
+
+        m_Board.MoveDraggedPawn();
+        m_Board.RenderBoard();
+
+        SDL_RenderPresent(Window::Renderer);
     }
 
 } // namespace Chess

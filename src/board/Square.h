@@ -36,10 +36,6 @@ namespace Chess {
 
         std::shared_ptr<Pawn> GetAssignedPawn() const { return m_Pawn; }
 
-        void Clear() {
-            m_Pawn = nullptr;
-        }
-
     private:
         std::shared_ptr<Pawn> m_Pawn = nullptr;
         SDL_Rect m_Rect{};
