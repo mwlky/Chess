@@ -4,20 +4,31 @@
 
 namespace Chess {
 
-enum class Site { BLACK, WHITE, NONE };
-enum class MoveType { NORMAL, CASTLE, ENPASSANT, INIT };
+    enum class Site {
+        BLACK, WHITE, NONE
+    };
+    enum class MoveType {
+        NORMAL, CASTLE, ENPASSANT, INIT
+    };
 
-class Pawn {
-public:
-  Pawn() = default;
-  Pawn(const char *sprite, Chess::Site site, int x, int y);
-  ~Pawn();
+    class Pawn {
+    public:
+        Pawn() = default;
+        Pawn(const char *sprite, Chess::Site site, int x, int y);
+        ~Pawn();
 
-  void Render();
+        void Render();
+        int GetWidth() const { return m_Rect.w; };
+        int GetHeight() const { return m_Rect.h; };
 
-private:
-  SDL_Texture *m_Texture = nullptr;
+        void SetPosition(int x, int y){
+            m_Rect.x = x;
+            m_Rect.y = y;
+        }
 
-  SDL_Rect m_Rect;
-};
+    private:
+        SDL_Texture *m_Texture = nullptr;
+
+        SDL_Rect m_Rect;
+    };
 } // namespace Chess
