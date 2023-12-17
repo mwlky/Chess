@@ -32,15 +32,17 @@ namespace Chess {
     class Board {
     public:
       void CreateBoard(int screenWidth, int screenHeight);
-      void SetPieces();
-
-      void RenderBoard();
+      void MoveDraggedPawn();
+      void ReleasePiece();
       void TakePiece(int x, int y);
+      void RenderBoard();
 
     private:
-        Squares m_Squares;
+        std::shared_ptr<Pawn> m_DraggedPawn = nullptr;
 
-        void SpawnPieces(const char* pieces, Site site, int rank);
+        void SetPieces();
+
+        Squares m_Squares;
 };
 
 } // namespace Chess

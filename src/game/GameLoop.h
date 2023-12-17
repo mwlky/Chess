@@ -4,27 +4,28 @@
 #include "../board/Board.h"
 #include "../sdl/Window.h"
 
-#define SCREEN_WIDTH 750
-#define SCREEN_HEIGHT 750
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 800
 
 namespace Chess {
 
-class GameLoop {
-public:
-  GameLoop() = default;
+    class GameLoop {
+    public:
+        GameLoop() = default;
 
-  void Run();
+        void Run();
 
-private:
-  void HandleEvents();
-  void MouseEvent();
+    private:
+        void HandleEvents();
 
-  Chess::Board m_Board;
+        void MovePiece(int x, int y);
 
-  SDL_Event m_Event;
+        Chess::Board m_Board;
 
-  bool m_IsRunning = false;
-};
+        SDL_Event m_Event;
+
+        bool m_IsRunning = false;
+    };
 
 } // namespace Chess
 

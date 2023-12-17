@@ -22,18 +22,23 @@ namespace Chess {
             if (m_Pawn == nullptr)
                 return;
 
-            int pawnX = m_Rect.x + (m_Rect.w - m_Pawn->GetWidth()) / 2;
-            int pawnY = m_Rect.y + (m_Rect.h - m_Pawn->GetHeight()) / 2;
 
-            // Set the position for the pawn
-            m_Pawn->SetPosition(pawnX, pawnY);
-            m_Pawn->SetPosition(pawnX, pawnY);
             m_Pawn->Render();
         }
 
-        void AssignPawn(const std::shared_ptr<Pawn> &pawn) { m_Pawn = pawn; }
+        void AssignPawn(const std::shared_ptr<Pawn> &pawn) {
+            m_Pawn = pawn;
+            int pawnX = m_Rect.x + (m_Rect.w - m_Pawn->GetWidth()) / 2;
+            int pawnY = m_Rect.y + (m_Rect.h - m_Pawn->GetHeight()) / 2;
+
+            m_Pawn->SetPosition(pawnX, pawnY);
+        }
 
         std::shared_ptr<Pawn> GetAssignedPawn() const { return m_Pawn; }
+
+        void Clear() {
+            m_Pawn = nullptr;
+        }
 
     private:
         std::shared_ptr<Pawn> m_Pawn = nullptr;

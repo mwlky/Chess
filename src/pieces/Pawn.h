@@ -26,6 +26,8 @@ namespace Chess {
             m_Rect.y = y;
         }
 
+        
+
     private:
         SDL_Texture *m_Texture = nullptr;
 

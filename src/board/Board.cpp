@@ -36,15 +36,13 @@ namespace Chess {
         }
         white = !white;
       }
+
       m_Squares = squares;
       SetPieces();
     }
 
     void Board::TakePiece(int x, int y) {
-//        Square square = m_Squares.squares[x][y];
-//        auto pawn = square.GetAssignedPawn();
-//
-//        pawn.Render();
+        m_DraggedPawn = m_Squares.squares[x][y].GetAssignedPawn();
     }
 
     void Board::SetPieces() {
@@ -74,5 +72,32 @@ namespace Chess {
             auto blackPawn = std::make_shared<Pawn>(PAWN_BLACK, Site::BLACK, i, 0);
             m_Squares.squares[i][1].AssignPawn(blackPawn);
         }
+    }
+
+    void Board::MoveDraggedPawn() {
+        if(m_DraggedPawn == nullptr)
+            return;
+
+        int mouseX, mouseY;
+        SDL_GetMouseState(&mouseX, &mouseY);
+
+        int pawnX = mouseX - m_DraggedPawn->GetWidth() / 2;
+        int pawnY = mouseY - m_DraggedPawn->GetHeight() / 2;
+
+        m_DraggedPawn->SetPosition(pawnX, pawnY);
+    }
+
+    void Board::ReleasePiece() {
+        if(m_DraggedPawn == nullptr)
+            return;
+
+        int mouseX, mouseY;
+        SDL_GetMouseState(&mouseX, &mouseY);
+
+        int newX = mouseX / 100;
+        int newY = mouseY / 100;
+
+        m_Squares.squares[newX][newY].AssignPawn(m_DraggedPawn);
+        m_DraggedPawn = nullptr;
     }
 } // namespace Chess
