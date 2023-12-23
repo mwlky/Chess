@@ -51,5 +51,9 @@ namespace Chess{
         m_XPos = x;
         m_YPos = y;
     }
+
+    Piece::Site Piece::GetSite() const {
+        return m_Site;
+    }
 }
 

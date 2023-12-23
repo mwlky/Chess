@@ -21,6 +21,7 @@ namespace Chess {
 
         void Render();
 
+        Site GetSite() const;
         SDL_Rect GetRect() const;
 
         void SetGlobalPosition(int x, int y);

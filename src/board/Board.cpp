@@ -130,6 +130,11 @@ namespace Chess {
         int newY = mouseY / 100;
 
         bool isValid = m_DraggedPawn->IsValidMove(newX, newY);
+        auto pieceOnSquare = m_Squares.squares[newX][newY].GetAssignedPawn();
+
+        if(pieceOnSquare != nullptr && pieceOnSquare->GetSite() == m_DraggedPawn->GetSite())
+            isValid = false;
+
         if (!isValid) {
             m_SquareThatPawnIsDraggedFrom.AssignPiece(m_DraggedPawn, false);
 
