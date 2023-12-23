@@ -6,6 +6,10 @@
 #include "SDL_image.h"
 #include "Square.h"
 
+#include "../pieces/Pawn.h"
+#include "../pieces/Knight.h"
+
+
 #define PAWN_BLACK "../assets/Chess_Pawn_Black.png"
 #define BLACK_SQUARE "../assets/black.png"
 #define ROCK_BLACK "../assets/Chess_Rock_Black.png"

@@ -1,19 +1,21 @@
+#pragma once
+
 #include "SDL.h"
 #include "SDL_image.h"
 #include "../sdl/SpriteManager.h"
 
 namespace Chess {
-    enum class Site {
-        BLACK, WHITE, NONE
-    };
-    enum class MoveType {
-        NORMAL, CASTLE, ENPASSANT, INIT
-    };
-
     class Piece {
     public:
+        enum class Site {
+            BLACK, WHITE, NONE
+        };
+        enum class MoveType {
+            NORMAL, CASTLE, ENPASSANT, INIT
+        };
+
         Piece() = default;
-        Piece(const char *sprite, Chess::Site site, int x, int y);
+        Piece(const char *sprite, Site site, int x, int y);
 
         virtual ~Piece();
 

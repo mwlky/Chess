@@ -47,32 +47,27 @@ namespace Chess {
     }
 
     void Board::SetPieces() {
-        const char *blackPieces[] = {ROCK_BLACK, KNIGHT_BLACK, BISHOP_BLACK, QUEEN_BLACK, KING_BLACK, BISHOP_BLACK,
-                                     KNIGHT_BLACK, ROCK_BLACK};
-        const char *whitePieces[] = {ROCK_WHITE, KNIGHT_WHITE, BISHOP_WHITE, QUEEN_WHITE, KING_WHITE, BISHOP_WHITE,
-                                     KNIGHT_WHITE, ROCK_WHITE};
+        auto blackKnightLeft = std::make_shared<Knight>(KNIGHT_BLACK, Piece::Site::BLACK, 1, 0);
+        m_Squares.squares[1][0].AssignPiece(blackKnightLeft, false);
 
-        // Spawn Black Pieces
-        for (int file = 0; file < 8; ++file) {
-            auto pawn = std::make_shared<Piece>(blackPieces[file], Site::BLACK, file, 0);
-            m_Squares.squares[file][0].AssignPiece(pawn, false);
-        }
+        auto blackKnightRight = std::make_shared<Knight>(KNIGHT_BLACK, Piece::Site::BLACK, 6, 0);
+        m_Squares.squares[6][0].AssignPiece(blackKnightRight, false);
 
-        // Spawn White Pieces
-        for (int file = 0; file < 8; ++file) {
-            auto pawn = std::make_shared<Piece>(whitePieces[file], Site::WHITE, file, 0);
-            m_Squares.squares[file][7].AssignPiece(pawn, false);
-        }
+        auto whiteKnightLeft = std::make_shared<Knight>(KNIGHT_WHITE, Piece::Site::WHITE, 1, 7);
+        m_Squares.squares[1][7].AssignPiece(whiteKnightLeft, false);
+
+        auto whiteKnightRight = std::make_shared<Knight>(KNIGHT_WHITE, Piece::Site::WHITE, 6, 7);
+        m_Squares.squares[6][7].AssignPiece(whiteKnightRight, false);
 
         // Spawn White Pawns
         for (int i = 0; i < 8; ++i) {
-            auto whitePawn = std::make_shared<Pawn>(PAWN_WHITE, Site::WHITE, i, 0);
+            auto whitePawn = std::make_shared<Pawn>(PAWN_WHITE, Piece::Site::WHITE, i, 0);
             m_Squares.squares[i][6].AssignPiece(whitePawn, false);
         }
 
         // Spawn Black Pawns
         for (int i = 0; i < 8; ++i) {
-            auto blackPawn = std::make_shared<Pawn>(PAWN_BLACK, Site::BLACK, i, 0);
+            auto blackPawn = std::make_shared<Pawn>(PAWN_BLACK, Piece::Site::BLACK, i, 0);
             m_Squares.squares[i][1].AssignPiece(blackPawn, false);
         }
     }

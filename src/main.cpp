@@ -1,5 +1,4 @@
 #include "game/GameLoop.h"
-#include <iostream>
 
 int main() {
 

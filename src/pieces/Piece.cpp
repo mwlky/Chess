@@ -1,7 +1,7 @@
 #include "Piece.h"
 namespace Chess{
 
-    Piece::Piece(const char *sprite, Chess::Site site, int x, int y) {
+    Piece::Piece(const char *sprite, Site site, int x, int y) {
         m_Texture = SpriteManager::LoadTexture(sprite, Window::Renderer);
 
         SDL_Rect rect {x * 80 - 2 , y , 100, 100};

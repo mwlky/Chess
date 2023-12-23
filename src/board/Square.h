@@ -1,7 +1,7 @@
 #include <memory>
 #include "../sdl/SpriteManager.h"
-#include "../pieces/Pawn.h"
 #include "SDL.h"
+#include "../pieces/Piece.h"
 
 namespace Chess {
 
