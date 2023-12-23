@@ -13,6 +13,16 @@ namespace Chess {
             return false;
         }
 
-        return true;
+        int direction = (m_Site == Site::WHITE) ? -1 : 1;
+
+        if (newX == m_XPos && newY == m_YPos + direction) {
+            return true;
+        }
+
+        if (newX == m_XPos && newY == m_YPos + 2 * direction && !HasMoved) {
+            return true;
+        }
+
+        return false;
     }
 }

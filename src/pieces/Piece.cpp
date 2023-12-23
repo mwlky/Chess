@@ -7,6 +7,7 @@ namespace Chess{
         SDL_Rect rect {x * 80 - 2 , y , 100, 100};
 
         m_Rect = rect;
+        m_Site = site;
     }
 
     Piece::~Piece() {
@@ -22,7 +23,7 @@ namespace Chess{
         return m_Rect;
     }
 
-    void Piece::SetPosition(int x, int y) {
+    void Piece::SetGlobalPosition(int x, int y) {
         m_Rect.x = x;
         m_Rect.y = y;
     }
@@ -44,6 +45,11 @@ namespace Chess{
         }
 
         return true;
+    }
+
+    void Piece::SetBoardPosition(int x, int y) {
+        m_XPos = x;
+        m_YPos = y;
     }
 }
 

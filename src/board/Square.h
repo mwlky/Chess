@@ -26,12 +26,16 @@ namespace Chess {
             m_Piece->Render();
         }
 
-        void AssignPawn(const std::shared_ptr<Piece> &pawn) {
+        void AssignPiece(const std::shared_ptr<Piece> &pawn, bool isMoveValid) {
             m_Piece = pawn;
             int pawnX = m_Rect.x + (m_Rect.w - m_Piece->GetRect().w) / 2;
             int pawnY = m_Rect.y + (m_Rect.h - m_Piece->GetRect().h) / 2;
 
-            m_Piece->SetPosition(pawnX, pawnY);
+            m_Piece->SetGlobalPosition(pawnX, pawnY);
+            m_Piece->SetBoardPosition(m_Rect.x / 100, m_Rect.y / 100);
+
+            if (!m_Piece->HasMoved && isMoveValid)
+                m_Piece->HasMoved = isMoveValid;
         }
 
         SDL_Rect GetPosition() const { return m_Rect; }

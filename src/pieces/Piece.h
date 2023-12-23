@@ -21,12 +21,21 @@ namespace Chess {
 
         SDL_Rect GetRect() const;
 
-        void SetPosition(int x, int y);
+        void SetGlobalPosition(int x, int y);
+        void SetBoardPosition(int x, int y);
 
         virtual bool IsValidMove(int x, int y) const;
 
+        bool HasMoved;
+
     protected:
         bool IsInsideBoard(int newX, int newY) const;
+
+        // Position on board
+        int m_XPos;
+        int m_YPos;
+
+        Site m_Site {};
 
     private:
         SDL_Texture *m_Texture = nullptr;
