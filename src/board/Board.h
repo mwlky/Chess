@@ -8,6 +8,7 @@
 
 #include "../pieces/Pawn.h"
 #include "../pieces/Rook.h"
+#include "../pieces/Queen.h"
 #include "../pieces/Knight.h"
 #include "../pieces/Bishop.h"
 
