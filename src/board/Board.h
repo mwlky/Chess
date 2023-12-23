@@ -8,6 +8,7 @@
 
 #include "../pieces/Pawn.h"
 #include "../pieces/Rook.h"
+#include "../pieces/King.h"
 #include "../pieces/Queen.h"
 #include "../pieces/Knight.h"
 #include "../pieces/Bishop.h"
@@ -31,25 +32,29 @@
 namespace Chess {
 
     struct Squares {
-      Square squares[8][8];
+        Square squares[8][8];
     };
 
     class Board {
     public:
-      void CreateBoard(int screenWidth, int screenHeight);
-      void MoveDraggedPawn();
-      void ReleasePiece();
-      void TakePiece(int x, int y);
-      void RenderBoard();
+        void CreateBoard(int screenWidth, int screenHeight);
+
+        void MoveDraggedPawn();
+
+        void ReleasePiece();
+
+        void TakePiece(int x, int y);
+
+        void RenderBoard();
 
     private:
         std::shared_ptr<Piece> m_DraggedPawn = nullptr;
 
         void SetPieces();
 
-        Squares m_Squares {};
-        Square m_SquareThatPawnIsDraggedFrom {};
-};
+        Squares m_Squares{};
+        Square m_SquareThatPawnIsDraggedFrom{};
+    };
 
 } // namespace Chess
 

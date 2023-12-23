@@ -89,13 +89,17 @@ namespace Chess {
         auto whiteQueen = std::make_shared<Queen>(QUEEN_WHITE, Piece::Site::WHITE, 3, 7);
         m_Squares.squares[3][7].AssignPiece(whiteQueen, false);
 
-        // Spawn White Pawns
+        auto blackKing = std::make_shared<King>(KING_BLACK, Piece::Site::BLACK, 4, 0);
+        m_Squares.squares[4][0].AssignPiece(blackKing, false);
+
+        auto whiteKing = std::make_shared<King>(KING_WHITE, Piece::Site::WHITE, 4, 7);
+        m_Squares.squares[4][7].AssignPiece(whiteKing, false);
+
         for (int i = 0; i < 8; ++i) {
             auto whitePawn = std::make_shared<Pawn>(PAWN_WHITE, Piece::Site::WHITE, i, 0);
             m_Squares.squares[i][6].AssignPiece(whitePawn, false);
         }
 
-        // Spawn Black Pawns
         for (int i = 0; i < 8; ++i) {
             auto blackPawn = std::make_shared<Pawn>(PAWN_BLACK, Piece::Site::BLACK, i, 0);
             m_Squares.squares[i][1].AssignPiece(blackPawn, false);
