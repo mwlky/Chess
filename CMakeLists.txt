@@ -19,6 +19,8 @@ add_executable(Chess src/main.cpp
         src/board/Board.h
         src/pieces/Pawn.cpp
         src/pieces/Pawn.h
+        src/pieces/Piece.cpp
+        src/pieces/Piece.h
 )
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})

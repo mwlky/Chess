@@ -19,25 +19,25 @@ namespace Chess {
 
         void Render() {
             SpriteManager::Draw(m_Texture, m_Rect, m_Renderer);
-            if (m_Pawn == nullptr)
+            if (m_Piece == nullptr)
                 return;
 
 
-            m_Pawn->Render();
+            m_Piece->Render();
         }
 
-        void AssignPawn(const std::shared_ptr<Pawn> &pawn) {
-            m_Pawn = pawn;
-            int pawnX = m_Rect.x + (m_Rect.w - m_Pawn->GetWidth()) / 2;
-            int pawnY = m_Rect.y + (m_Rect.h - m_Pawn->GetHeight()) / 2;
+        void AssignPawn(const std::shared_ptr<Piece> &pawn) {
+            m_Piece = pawn;
+            int pawnX = m_Rect.x + (m_Rect.w - m_Piece->GetWidth()) / 2;
+            int pawnY = m_Rect.y + (m_Rect.h - m_Piece->GetHeight()) / 2;
 
-            m_Pawn->SetPosition(pawnX, pawnY);
+            m_Piece->SetPosition(pawnX, pawnY);
         }
 
-        std::shared_ptr<Pawn> GetAssignedPawn() const { return m_Pawn; }
+        std::shared_ptr<Piece> GetAssignedPawn() const { return m_Piece; }
 
     private:
-        std::shared_ptr<Pawn> m_Pawn = nullptr;
+        std::shared_ptr<Piece> m_Piece = nullptr;
         SDL_Rect m_Rect{};
 
         SDL_Texture *m_Texture = nullptr;

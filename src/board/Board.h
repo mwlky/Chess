@@ -1,5 +1,4 @@
 #ifndef CHESS_BOARD_H
-#define CHESS_BOARD_H
 
 #include "../sdl/SpriteManager.h"
 #include "../sdl/Window.h"
@@ -38,7 +37,7 @@ namespace Chess {
       void RenderBoard();
 
     private:
-        std::shared_ptr<Pawn> m_DraggedPawn = nullptr;
+        std::shared_ptr<Piece> m_DraggedPawn = nullptr;
 
         void SetPieces();
 
