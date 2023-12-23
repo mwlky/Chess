@@ -9,7 +9,7 @@
 #include "../pieces/Pawn.h"
 #include "../pieces/Rook.h"
 #include "../pieces/Knight.h"
-
+#include "../pieces/Bishop.h"
 
 #define PAWN_BLACK "../assets/Chess_Pawn_Black.png"
 #define BLACK_SQUARE "../assets/black.png"
