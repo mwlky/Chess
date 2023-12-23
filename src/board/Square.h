@@ -22,7 +22,6 @@ namespace Chess {
             if (m_Piece == nullptr)
                 return;
 
-
             m_Piece->Render();
         }
 
@@ -36,6 +35,10 @@ namespace Chess {
 
             if (!m_Piece->HasMoved && isMoveValid)
                 m_Piece->HasMoved = isMoveValid;
+        }
+
+        void UnassignPiece(){
+            m_Piece.reset();
         }
 
         SDL_Rect GetPosition() const { return m_Rect; }

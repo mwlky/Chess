@@ -18,16 +18,16 @@ namespace Chess {
         Piece(const char *sprite, Site site, int x, int y);
 
         virtual ~Piece();
-
-        void Render();
+        virtual bool IsValidMove(int x, int y) const;
 
         Site GetSite() const;
         SDL_Rect GetRect() const;
+        int GetBoardXPosition() const { return m_XPos; }
+        int GetBoardYPosition() const { return m_YPos; }
 
+        void Render();
         void SetGlobalPosition(int x, int y);
         void SetBoardPosition(int x, int y);
-
-        virtual bool IsValidMove(int x, int y) const;
 
         bool HasMoved;
 
@@ -38,7 +38,7 @@ namespace Chess {
         int m_XPos;
         int m_YPos;
 
-        Site m_Site {};
+        Site m_Site{};
 
     private:
         SDL_Texture *m_Texture = nullptr;

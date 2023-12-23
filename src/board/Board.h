@@ -40,12 +40,11 @@ namespace Chess {
         void CreateBoard(int screenWidth, int screenHeight);
 
         void MoveDraggedPawn();
-
         void ReleasePiece();
-
         void TakePiece(int x, int y);
-
         void RenderBoard();
+
+        bool CheckIfPathIsClear(const Piece& piece, int newX, int newY);
 
     private:
         std::shared_ptr<Piece> m_DraggedPawn = nullptr;

@@ -43,6 +43,9 @@ namespace Chess {
 
     void Board::TakePiece(int x, int y) {
         m_DraggedPawn = m_Squares.squares[x][y].GetAssignedPawn();
+        if(m_DraggedPawn != nullptr){
+            std::cout << "There is a piece!" << std::endl;
+        }
         m_SquareThatPawnIsDraggedFrom = m_Squares.squares[x][y];
     }
 
@@ -58,7 +61,7 @@ namespace Chess {
 
         auto whiteKnightRight = std::make_shared<Knight>(KNIGHT_WHITE, Piece::Site::WHITE, 6, 7);
         m_Squares.squares[6][7].AssignPiece(whiteKnightRight, false);
-        
+
         auto blackRookRight = std::make_shared<Rook>(ROOK_BLACK, Piece::Site::BLACK, 7, 0);
         m_Squares.squares[7][0].AssignPiece(blackRookRight, false);
 
@@ -80,7 +83,7 @@ namespace Chess {
         auto blackBishopRight = std::make_shared<Bishop>(BISHOP_BLACK, Piece::Site::BLACK, 2, 0);
         m_Squares.squares[2][0].AssignPiece(blackBishopRight, false);
 
-        auto blackBishopLeft = std::make_shared<Bishop>(BISHOP_BLACK, Piece::Site::WHITE, 5, 0);
+        auto blackBishopLeft = std::make_shared<Bishop>(BISHOP_BLACK, Piece::Site::BLACK, 5, 0);
         m_Squares.squares[5][0].AssignPiece(blackBishopLeft, false);
 
         auto blackQueen = std::make_shared<Queen>(QUEEN_BLACK, Piece::Site::BLACK, 3, 0);
@@ -132,17 +135,38 @@ namespace Chess {
         bool isValid = m_DraggedPawn->IsValidMove(newX, newY);
         auto pieceOnSquare = m_Squares.squares[newX][newY].GetAssignedPawn();
 
-        if(pieceOnSquare != nullptr && pieceOnSquare->GetSite() == m_DraggedPawn->GetSite())
+        if (pieceOnSquare != nullptr && pieceOnSquare->GetSite() == m_DraggedPawn->GetSite())
             isValid = false;
 
-        if (!isValid) {
+        if (!isValid || !CheckIfPathIsClear(*m_DraggedPawn, newX, newY)) {
             m_SquareThatPawnIsDraggedFrom.AssignPiece(m_DraggedPawn, false);
 
             m_DraggedPawn = nullptr;
             return;
         }
 
+//        std::cout << "Old square:" << m_SquareThatPawnIsDraggedFrom.GetPosition().x / 100 << " " << m_SquareThatPawnIsDraggedFrom.GetPosition().y / 100 << std::endl;
+
+        m_SquareThatPawnIsDraggedFrom.UnassignPiece();
         m_Squares.squares[newX][newY].AssignPiece(m_DraggedPawn, true);
         m_DraggedPawn = nullptr;
     }
-} // namespace Chess
+
+    bool Board::CheckIfPathIsClear(const Piece &piece, int newX, int newY) {
+        int directionX = newX - piece.GetBoardXPosition() > 0 ? 1 : ((newX - piece.GetBoardXPosition()) < 0 ? -1 : 0);
+        int directionY = newY - piece.GetBoardYPosition() > 0 ? 1 : ((newY - piece.GetBoardYPosition()) < 0 ? -1 : 0);
+
+        for (int x = piece.GetBoardXPosition() + directionX, y = piece.GetBoardYPosition() + directionY;
+             x != newX || y != newY; x += directionX, y += directionY) {
+
+            if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+                return false;
+            }
+
+            if(m_Squares.squares[x][y].GetAssignedPawn() != nullptr){
+                return false;
+            }
+        }
+        return true;
+        }
+    } // namespace Chess
