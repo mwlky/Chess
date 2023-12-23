@@ -19,15 +19,14 @@ namespace Chess {
 
         void Render();
 
-        int GetWidth() const { return m_Rect.w; };
-        int GetHeight() const { return m_Rect.h; };
+        SDL_Rect GetRect() const;
 
-        void SetPosition(int x, int y) {
-            m_Rect.x = x;
-            m_Rect.y = y;
-        }
+        void SetPosition(int x, int y);
 
-        SDL_Rect GetPosition() const {  return m_Rect; }
+        virtual bool IsValidMove(int x, int y) const;
+
+    protected:
+        bool IsInsideBoard(int newX, int newY) const;
 
     private:
         SDL_Texture *m_Texture = nullptr;

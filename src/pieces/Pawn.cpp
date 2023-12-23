@@ -7,4 +7,12 @@ namespace Chess {
     Pawn::~Pawn() {
         SDL_DestroyTexture(m_Texture);
     }
+
+    bool Pawn::IsValidMove(int newX, int newY) const {
+        if(!Piece::IsInsideBoard(newX, newY)){
+            return false;
+        }
+
+        return true;
+    }
 }

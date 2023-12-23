@@ -28,11 +28,13 @@ namespace Chess {
 
         void AssignPawn(const std::shared_ptr<Piece> &pawn) {
             m_Piece = pawn;
-            int pawnX = m_Rect.x + (m_Rect.w - m_Piece->GetWidth()) / 2;
-            int pawnY = m_Rect.y + (m_Rect.h - m_Piece->GetHeight()) / 2;
+            int pawnX = m_Rect.x + (m_Rect.w - m_Piece->GetRect().w) / 2;
+            int pawnY = m_Rect.y + (m_Rect.h - m_Piece->GetRect().h) / 2;
 
             m_Piece->SetPosition(pawnX, pawnY);
         }
+
+        SDL_Rect GetPosition() const { return m_Rect; }
 
         std::shared_ptr<Piece> GetAssignedPawn() const { return m_Piece; }
 

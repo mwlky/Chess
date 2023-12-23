@@ -41,7 +41,8 @@ namespace Chess {
 
         void SetPieces();
 
-        Squares m_Squares;
+        Squares m_Squares {};
+        Square m_SquareThatPawnIsDraggedFrom {};
 };
 
 } // namespace Chess
