@@ -52,7 +52,7 @@ namespace Chess {
         void SetPieces();
 
         Squares m_Squares{};
-        Square m_SquareThatPawnIsDraggedFrom{};
+        Square* m_SquareThatPawnIsDraggedFrom{};
     };
 
 } // namespace Chess
