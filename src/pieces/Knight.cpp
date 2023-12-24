@@ -7,8 +7,8 @@ namespace Chess {
         SDL_DestroyTexture(m_Texture);
     }
 
-    bool Knight::IsValidMove(int newX, int newY) const {
-        if(!Piece::IsValidMove(newX, newY))
+    bool Knight::IsValidMove(int newX, int newY, MoveType type) const {
+        if(!Piece::IsValidMove(newX, newY, MoveType::NORMAL))
             return false;
 
         if((newX == m_XPos + 1 || newX == m_XPos - 1)&& (newY == m_YPos + 2 || newY == m_YPos - 2))

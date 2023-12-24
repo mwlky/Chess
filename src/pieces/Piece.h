@@ -11,14 +11,14 @@ namespace Chess {
             BLACK, WHITE, NONE
         };
         enum class MoveType {
-            NORMAL, CASTLE, ENPASSANT, INIT
+            NORMAL, CASTLE, ENPASSANT, TAKE
         };
 
         Piece() = default;
         Piece(const char *sprite, Site site, int x, int y);
 
         virtual ~Piece();
-        virtual bool IsValidMove(int x, int y) const;
+        virtual bool IsValidMove(int x, int y, MoveType type) const;
 
         Site GetSite() const;
         SDL_Rect GetRect() const;

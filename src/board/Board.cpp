@@ -147,13 +147,23 @@ void Board::ReleasePiece() {
   int newX = mouseX / 100;
   int newY = mouseY / 100;
 
+  Piece::MoveType moveType = Piece::MoveType::NORMAL;
+
   bool checkSite = CheckSite(*m_DraggedPawn);
-  bool isValid = m_DraggedPawn->IsValidMove(newX, newY);
+  bool isValid;
   auto pieceOnSquare = m_Squares.squares[newX][newY].GetAssignedPawn();
 
   if (pieceOnSquare != nullptr &&
       pieceOnSquare->GetSite() == m_DraggedPawn->GetSite())
     isValid = false;
+
+  else if(pieceOnSquare != nullptr && pieceOnSquare->GetSite() != m_DraggedPawn->GetSite()) {
+      moveType = Piece::MoveType::TAKE;
+      isValid = m_DraggedPawn->IsValidMove(newX, newY, moveType);
+  }
+
+  else
+      isValid = m_DraggedPawn->IsValidMove(newX, newY, moveType);
 
   if (!isValid || !CheckIfPathIsClear(*m_DraggedPawn, newX, newY) ||
       !checkSite) {
@@ -227,7 +237,7 @@ bool Board::IsSquareUnderAttack(int x, int y, Piece::Site site) {
       auto attackingPiece = m_Squares.squares[i][j].GetAssignedPawn();
 
       if (attackingPiece != nullptr && attackingPiece->GetSite() != site)
-        if (attackingPiece->IsValidMove(x, y) &&
+        if (attackingPiece->IsValidMove(x, y, Piece::MoveType::NORMAL) &&
             CheckIfPathIsClear(*attackingPiece, x, y))
           return true;
     }

@@ -8,7 +8,7 @@ namespace Chess {
         SDL_DestroyTexture(m_Texture);
     }
 
-    bool Bishop::IsValidMove(int newX, int newY) const {
+    bool Bishop::IsValidMove(int newX, int newY, MoveType type) const {
         if(!Piece::IsInsideBoard(newX, newY))
             return false;
 

@@ -28,7 +28,7 @@ namespace Chess{
         m_Rect.y = y;
     }
 
-    bool Piece::IsValidMove(int x, int y) const{
+    bool Piece::IsValidMove(int x, int y, MoveType type) const{
         if(!IsInsideBoard(x, y))
             return false;
 

@@ -8,12 +8,20 @@ namespace Chess {
         SDL_DestroyTexture(m_Texture);
     }
 
-    bool Pawn::IsValidMove(int newX, int newY) const {
+    bool Pawn::IsValidMove(int newX, int newY, MoveType type) const {
         if(!Piece::IsInsideBoard(newX, newY)){
             return false;
         }
 
         int direction = (m_Site == Site::WHITE) ? -1 : 1;
+
+        if(type == MoveType::TAKE){
+            if (abs(newX - m_XPos) <= 1 && abs(newY - m_YPos) <= 1) {
+                return true;
+            }
+
+            return false;
+        }
 
         if (newX == m_XPos && newY == m_YPos + direction) {
             return true;

@@ -10,7 +10,7 @@ namespace Chess{
         Knight(const char *sprite, Site site, int x, int y);
         ~Knight() override;
 
-        bool IsValidMove(int newX, int newY) const override;
+        bool IsValidMove(int newX, int newY, MoveType type) const override;
 
     private:
         SDL_Texture *m_Texture = nullptr;

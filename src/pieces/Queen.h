@@ -10,7 +10,7 @@ namespace Chess {
 
         ~Queen() override;
 
-        bool IsValidMove(int newX, int newY) const override;
+        bool IsValidMove(int newX, int newY, MoveType type) const override;
 
     private:
         SDL_Texture *m_Texture = nullptr;

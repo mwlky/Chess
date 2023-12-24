@@ -13,7 +13,7 @@ class Pawn : public Piece {
         Pawn(const char *sprite, Site site, int x, int y);
         ~Pawn() override;
 
-        bool IsValidMove(int newX, int newY) const override;
+        bool IsValidMove(int newX, int newY, MoveType type) const override;
 
     private:
         SDL_Texture *m_Texture = nullptr;
