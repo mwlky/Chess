@@ -13,10 +13,19 @@ namespace Chess {
             return false;
         }
 
+        if(type == MoveType::TAKE){
+            std::cout << "Take" << std::endl;
+        } else{
+            std::cout << "Normal" << std::endl;
+        }
+
         int direction = (m_Site == Site::WHITE) ? -1 : 1;
 
         if(type == MoveType::TAKE){
-            if (abs(newX - m_XPos) <= 1 && abs(newY - m_YPos) <= 1) {
+
+            bool isDiagnal = abs(newX - m_XPos) == abs(newY - m_YPos);
+
+            if ( isDiagnal && abs(newX - m_XPos) <= 1 && abs(newY - m_YPos) <= 1) {
                 return true;
             }
 
