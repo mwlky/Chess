@@ -170,6 +170,11 @@ void Board::ReleasePiece() {
 }
 
 bool Board::CheckIfPathIsClear(const Piece &piece, int newX, int newY) {
+
+    if(typeid(Knight) == typeid(piece)){
+        return true;
+    }
+
   int directionX = newX - piece.GetBoardXPosition() > 0
                        ? 1
                        : ((newX - piece.GetBoardXPosition()) < 0 ? -1 : 0);
