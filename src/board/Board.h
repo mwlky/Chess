@@ -45,6 +45,7 @@ namespace Chess {
         void TakePiece(int x, int y);
         void RenderBoard();
 
+        bool IsSquareUnderAttack(int x, int y, Piece::Site site);
         bool CheckSite(const Piece& piece);
         bool CheckIfPathIsClear(const Piece& piece, int newX, int newY);
 

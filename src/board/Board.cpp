@@ -219,4 +219,20 @@ void Board::SwitchSite() {
   else
     m_CurrentMove = Piece::Site::BLACK;
 }
+
+bool Board::IsSquareUnderAttack(int x, int y, Piece::Site site) {
+
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+      auto attackingPiece = m_Squares.squares[i][j].GetAssignedPawn();
+
+      if (attackingPiece != nullptr && attackingPiece->GetSite() != site)
+        if (attackingPiece->IsValidMove(x, y) &&
+            CheckIfPathIsClear(*attackingPiece, x, y))
+          return true;
+    }
+  }
+
+  return false;
+}
 } // namespace Chess
