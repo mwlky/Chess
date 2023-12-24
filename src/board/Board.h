@@ -12,22 +12,7 @@
 #include "../pieces/Queen.h"
 #include "../pieces/Knight.h"
 #include "../pieces/Bishop.h"
-
-#define PAWN_BLACK "../assets/Chess_Pawn_Black.png"
-#define BLACK_SQUARE "../assets/black.png"
-#define ROOK_BLACK "../assets/Chess_Rock_Black.png"
-#define KING_BLACK "../assets/Chess_King_Black.png"
-#define QUEEN_BLACK "../assets/Chess_Hetman_Black.png"
-#define KNIGHT_BLACK "../assets/Chess_Knight_Black.png"
-#define BISHOP_BLACK "../assets/Chess_Bishop_Black.png"
-
-#define WHITE_SQUARE "../assets/white.png"
-#define KING_WHITE "../assets/Chess_King_White.png"
-#define PAWN_WHITE "../assets/Chess_Pawn_White.png"
-#define ROOK_WHITE "../assets/Chess_Rock_White.png"
-#define QUEEN_WHITE "../assets/Chess_Queen_White.png"
-#define KNIGHT_WHITE "../assets/Chess_Knight_White.png"
-#define BISHOP_WHITE "../assets/Chess_Bishop_White.png"
+#include "../Macros.h"
 
 namespace Chess {
 
@@ -37,27 +22,29 @@ namespace Chess {
 
     class Board {
     public:
+
+        void RenderBoard();
+        void ReleasePiece();
+        void MoveDraggedPawn();
+        void TakePiece(int x, int y);
         void CreateBoard(int screenWidth, int screenHeight);
 
-        void SwitchSite();
-        void MoveDraggedPawn();
-        void ReleasePiece();
-        void TakePiece(int x, int y);
-        void RenderBoard();
-
-        bool IsSquareUnderAttack(int x, int y, Piece::Site site);
-        bool CheckSite(const Piece& piece);
-        bool CheckIfPathIsClear(const Piece& piece, int newX, int newY);
-
     private:
+        Squares m_Squares{};
+
+        Piece::Site m_CurrentMove = Piece::Site::WHITE;
+
+        Square *m_SquareThatPawnIsDraggedFrom{};
         std::shared_ptr<Piece> m_DraggedPawn = nullptr;
 
         void SetPieces();
+        void SwitchSite();
 
-        Squares m_Squares{};
-        Square* m_SquareThatPawnIsDraggedFrom{};
-
-        Piece::Site m_CurrentMove = Piece::Site::WHITE;
+        bool CheckSite(const Piece &piece);
+        bool CheckIfPathIsClear(const Piece &piece, int newX, int newY);
+        bool IsSquareUnderAttack(int x, int y, Piece::Site site);
+        bool CheckIfMoveIsProper(int newX, int newY,
+                                 const std::shared_ptr<Piece> &pieceOnSquare) const;
     };
 
 } // namespace Chess
