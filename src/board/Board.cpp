@@ -44,7 +44,6 @@ void Board::CreateBoard(int screenWidth, int screenHeight) {
 void Board::TakePiece(int x, int y) {
   m_DraggedPawn = m_Squares.squares[x][y].GetAssignedPawn();
   if (m_DraggedPawn != nullptr) {
-    std::cout << "There is a piece!" << std::endl;
     m_SquareThatPawnIsDraggedFrom = &m_Squares.squares[x][y];
   }
 }
@@ -148,6 +147,7 @@ void Board::ReleasePiece() {
   int newX = mouseX / 100;
   int newY = mouseY / 100;
 
+  bool checkSite = CheckSite(*m_DraggedPawn);
   bool isValid = m_DraggedPawn->IsValidMove(newX, newY);
   auto pieceOnSquare = m_Squares.squares[newX][newY].GetAssignedPawn();
 
@@ -155,12 +155,15 @@ void Board::ReleasePiece() {
       pieceOnSquare->GetSite() == m_DraggedPawn->GetSite())
     isValid = false;
 
-  if (!isValid || !CheckIfPathIsClear(*m_DraggedPawn, newX, newY)) {
+  if (!isValid || !CheckIfPathIsClear(*m_DraggedPawn, newX, newY) ||
+      !checkSite) {
     m_SquareThatPawnIsDraggedFrom->AssignPiece(m_DraggedPawn, false);
 
     m_DraggedPawn = nullptr;
     return;
   }
+
+  SwitchSite();
 
   m_SquareThatPawnIsDraggedFrom->UnassignPiece();
   m_SquareThatPawnIsDraggedFrom = nullptr;
@@ -171,9 +174,9 @@ void Board::ReleasePiece() {
 
 bool Board::CheckIfPathIsClear(const Piece &piece, int newX, int newY) {
 
-    if(typeid(Knight) == typeid(piece)){
-        return true;
-    }
+  if (typeid(Knight) == typeid(piece)) {
+    return true;
+  }
 
   int directionX = newX - piece.GetBoardXPosition() > 0
                        ? 1
@@ -195,5 +198,25 @@ bool Board::CheckIfPathIsClear(const Piece &piece, int newX, int newY) {
     }
   }
   return true;
+}
+
+bool Board::CheckSite(const Piece &piece) {
+
+  Piece::Site pieceSite = piece.GetSite();
+
+  if (m_CurrentMove == pieceSite) {
+    return true;
+  }
+
+  return false;
+}
+
+void Board::SwitchSite() {
+
+  if (m_CurrentMove == Piece::Site::BLACK)
+    m_CurrentMove = Piece::Site::WHITE;
+
+  else
+    m_CurrentMove = Piece::Site::BLACK;
 }
 } // namespace Chess

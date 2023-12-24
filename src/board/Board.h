@@ -39,11 +39,13 @@ namespace Chess {
     public:
         void CreateBoard(int screenWidth, int screenHeight);
 
+        void SwitchSite();
         void MoveDraggedPawn();
         void ReleasePiece();
         void TakePiece(int x, int y);
         void RenderBoard();
 
+        bool CheckSite(const Piece& piece);
         bool CheckIfPathIsClear(const Piece& piece, int newX, int newY);
 
     private:
@@ -53,6 +55,8 @@ namespace Chess {
 
         Squares m_Squares{};
         Square* m_SquareThatPawnIsDraggedFrom{};
+
+        Piece::Site m_CurrentMove = Piece::Site::WHITE;
     };
 
 } // namespace Chess
