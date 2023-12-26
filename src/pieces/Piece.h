@@ -29,7 +29,7 @@ namespace Chess {
         void SetGlobalPosition(int x, int y);
         void SetBoardPosition(int x, int y);
 
-        bool HasMoved;
+        bool HasMoved = false;
 
     protected:
         bool IsInsideBoard(int newX, int newY) const;

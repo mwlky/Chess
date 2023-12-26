@@ -13,12 +13,6 @@ namespace Chess {
             return false;
         }
 
-        if(type == MoveType::TAKE){
-            std::cout << "Take" << std::endl;
-        } else{
-            std::cout << "Normal" << std::endl;
-        }
-
         int direction = (m_Site == Site::WHITE) ? -1 : 1;
 
         if(type == MoveType::TAKE){
