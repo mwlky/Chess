@@ -147,11 +147,15 @@ namespace Chess {
         int newX = mouseX / 100;
         int newY = mouseY / 100;
 
-        auto pieceOnSquare = m_Squares.squares[newX][newY].GetAssignedPawn();
+        auto piece = m_Squares.squares[newX][newY].GetAssignedPawn();
 
         bool checkSite = CheckSite(*m_DraggedPawn);
-        bool isValid = CheckIfMoveIsProper(newX, newY, pieceOnSquare);
+        bool isValid = CheckIfMoveIsProper(newX, newY, piece);
         bool isCastling = IsTryingToCastle(newX, newY);
+
+        if(CheckCheck()){
+
+        }
 
         if (isCastling) {
             DoCastle(newX);
@@ -162,7 +166,6 @@ namespace Chess {
 
             return;
         }
-
         SwitchSite();
         DoNormalMove(newX, newY);
     }
@@ -178,9 +181,6 @@ namespace Chess {
     bool Board::IsTryingToCastle(int newX, int newY) {
         if (typeid(*m_DraggedPawn) != typeid(King))
             return false;
-
-
-        // TODO: check check...
 
         if (m_DraggedPawn->HasMoved)
             return false;
@@ -206,16 +206,16 @@ namespace Chess {
     }
 
     bool Board::CheckIfMoveIsProper(int newX, int newY,
-                               const std::shared_ptr<Piece> &pieceOnSquare) const {
+                               const std::shared_ptr<Piece> &piece) const {
         Piece::MoveType moveType = Piece::MoveType::NORMAL;
 
         bool isValid;
 
-        if (pieceOnSquare != nullptr &&
-            pieceOnSquare->GetSite() == m_DraggedPawn->GetSite())
+        if (piece != nullptr &&
+            piece->GetSite() == m_DraggedPawn->GetSite())
             isValid = false;
 
-        else if (pieceOnSquare != nullptr && pieceOnSquare->GetSite() != m_DraggedPawn->GetSite()) {
+        else if (piece != nullptr && piece->GetSite() != m_DraggedPawn->GetSite()) {
             moveType = Piece::MoveType::TAKE;
             isValid = m_DraggedPawn->IsValidMove(newX, newY, moveType);
         } else
@@ -321,5 +321,71 @@ namespace Chess {
         }
 
         return false;
+    }
+
+    bool Board::IsCheckmate(Piece::Site site){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                auto currentPiece = m_Squares.squares[i][j].GetAssignedPawn();
+
+                if (currentPiece != nullptr && currentPiece->GetSite() == site) {
+                    for (int newX = 0; newX < 8; newX++) {
+                        for (int newY = 0; newY < 8; newY++) {
+                            if (CheckIfMoveIsProper(newX, newY, nullptr)) {
+                                auto originalSquare = m_Squares.squares[i][j];
+                                auto originalPiece = currentPiece;
+
+                                m_Squares.squares[i][j].UnassignPiece();
+                                m_Squares.squares[newX][newY].AssignPiece(originalPiece, true);
+
+                                bool isInCheck = IsSquareUnderAttack(originalPiece->GetBoardXPosition(),
+                                                                     originalPiece->GetBoardYPosition(),
+                                                                     site);
+
+                                m_Squares.squares[i][j] = originalSquare;
+                                m_Squares.squares[newX][newY].UnassignPiece();
+                                m_Squares.squares[i][j].AssignPiece(originalPiece, true);
+
+                                if (!isInCheck) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    bool Board::CheckCheck() {
+        auto king = FindKingOfSite(m_CurrentMove);
+
+        int xPos = king->GetBoardXPosition();
+        int yPos = king->GetBoardYPosition();
+
+        return IsSquareUnderAttack(xPos, yPos, m_CurrentMove);
+    }
+
+    Piece* Board::FindKingOfSite(Piece::Site site) {
+        for (const auto & square : m_Squares.squares) {
+            for (const auto & y : square) {
+                auto piece = y.GetAssignedPawn();
+
+                if(piece == nullptr)
+                    continue;
+
+                if(dynamic_cast<King*>(piece.get()) == nullptr)
+                    continue;
+
+                if(piece->GetSite() != site)
+                    continue;
+
+                return piece.get();
+            }
+        }
+
+        return nullptr;
     }
 } // namespace Chess
