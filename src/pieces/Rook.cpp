@@ -1,13 +1,7 @@
 #include "Rook.h"
 
 namespace Chess {
-    Rook::Rook(const char *sprite, Piece::Site site, int x, int y) : Piece(sprite, site, x, y) {
-
-    }
-
-    Rook::~Rook() {
-        SDL_DestroyTexture(m_Texture);
-    }
+    Rook::Rook(const char *sprite, Piece::Site site, int x, int y) : Piece(sprite, site, x, y) {}
 
     bool Rook::IsValidMove(int newX, int newY, MoveType type) const {
         if(!Piece::IsInsideBoard(newX, newY))

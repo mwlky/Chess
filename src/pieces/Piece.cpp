@@ -16,7 +16,6 @@ namespace Chess{
 
     void Piece::Render() {
         SpriteManager::Draw(m_Texture, m_Rect, Window::Renderer);
-
     }
 
     SDL_Rect Piece::GetRect() const {
@@ -36,13 +35,12 @@ namespace Chess{
     }
 
     bool Piece::IsInsideBoard(int newX, int newY) const {
-        if(newX >= 8 || newX < 0){
+        if(newX >= 8 || newX < 0)
             return false;
-        }
 
-        if(newY < 0 || newY >= 8){
+
+        if(newY < 0 || newY >= 8)
             return false;
-        }
 
         return true;
     }

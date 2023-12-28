@@ -11,11 +11,8 @@ class Pawn : public Piece {
     public:
         Pawn() = default;
         Pawn(const char *sprite, Site site, int x, int y);
-        ~Pawn() override;
+        ~Pawn() override = default;
 
         bool IsValidMove(int newX, int newY, MoveType type) const override;
-
-    private:
-        SDL_Texture *m_Texture = nullptr;
     };
 } // namespace Chess

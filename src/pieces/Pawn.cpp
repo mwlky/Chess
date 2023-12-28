@@ -1,12 +1,7 @@
 #include "Pawn.h"
 
 namespace Chess {
-    Pawn::Pawn(const char *sprite, Site site, int x, int y) : Piece(sprite, site, x, y) {
-    }
-
-    Pawn::~Pawn() {
-        SDL_DestroyTexture(m_Texture);
-    }
+    Pawn::Pawn(const char *sprite, Site site, int x, int y) : Piece(sprite, site, x, y) {}
 
     bool Pawn::IsValidMove(int newX, int newY, MoveType type) const {
         if(!Piece::IsInsideBoard(newX, newY)){
@@ -26,13 +21,13 @@ namespace Chess {
             return false;
         }
 
-        if (newX == m_XPos && newY == m_YPos + direction) {
+        if (newX == m_XPos && newY == m_YPos + direction)
             return true;
-        }
 
-        if (newX == m_XPos && newY == m_YPos + 2 * direction && !HasMoved) {
+
+        if (newX == m_XPos && newY == m_YPos + 2 * direction && !HasMoved)
             return true;
-        }
+
 
         return false;
     }

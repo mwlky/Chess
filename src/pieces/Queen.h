@@ -8,12 +8,9 @@ namespace Chess {
         Queen() = default;
         Queen(const char *sprite, Site site, int x, int y);
 
-        ~Queen() override;
+        ~Queen() override = default;
 
         bool IsValidMove(int newX, int newY, MoveType type) const override;
-
-    private:
-        SDL_Texture *m_Texture = nullptr;
     };
 
 } // Chess

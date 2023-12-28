@@ -3,10 +3,6 @@
 namespace Chess {
     Knight::Knight(const char *sprite, Site site, int x, int y) : Piece(sprite, site, x, y) {}
 
-    Knight::~Knight() {
-        SDL_DestroyTexture(m_Texture);
-    }
-
     bool Knight::IsValidMove(int newX, int newY, MoveType type) const {
         if(!Piece::IsValidMove(newX, newY, MoveType::NORMAL))
             return false;

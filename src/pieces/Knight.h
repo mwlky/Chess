@@ -8,12 +8,9 @@ namespace Chess{
     public:
         Knight() = default;
         Knight(const char *sprite, Site site, int x, int y);
-        ~Knight() override;
+        ~Knight() override = default;
 
         bool IsValidMove(int newX, int newY, MoveType type) const override;
-
-    private:
-        SDL_Texture *m_Texture = nullptr;
     };
 }
 

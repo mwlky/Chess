@@ -9,11 +9,8 @@ namespace Chess {
         Rook() = default;
         Rook(const char *sprite, Site site, int x, int y);
 
-        ~Rook() override;
+        ~Rook() override = default;
 
         bool IsValidMove(int newX, int newY, MoveType type) const override;
-
-    private:
-        SDL_Texture *m_Texture = nullptr;
     };
 } // Chess

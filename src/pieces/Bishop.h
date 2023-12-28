@@ -8,12 +8,9 @@ namespace Chess {
         Bishop() = default;
         Bishop(const char *sprite, Site site, int x, int y);
 
-        ~Bishop() override;
+        ~Bishop() override = default;
 
         bool IsValidMove(int newX, int newY, MoveType type) const override;
-
-    private:
-        SDL_Texture *m_Texture = nullptr;
     };
 
 } // Chess

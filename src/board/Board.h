@@ -34,29 +34,28 @@ namespace Chess {
 
         Piece::Site m_CurrentMove = Piece::Site::WHITE;
 
-        Square *m_SquareThatPawnIsDraggedFrom{};
+        Square* m_SquareThatPawnIsDraggedFrom = nullptr;
         std::shared_ptr<Piece> m_DraggedPawn = nullptr;
 
         void SetPieces();
         void SwitchSite();
         void CancelMove();
-        void DoCastle(int newX);
-        void DoNormalMove(int newX, int newY);
+        void DoCastle(const int& newX);
+        void DoNormalMove(const int& newX, const int& newY);
+        void CheckProcedures(const int &newX, const int &newY);
 
-        bool SimulateMoveAndCheckForCheck(const int& newX, const int& newY);
-        bool CheckCheck();
         bool HasTriedToSaveKing(const int& newX, const int& newY);
-        bool IsCheckmate(Piece::Site site);
-        bool IsPathUnderAttack(int xStart, int xEnd, int y, Piece::Site site) const;
-        bool CheckSite(const Piece &piece);
-        bool IsTryingToCastle(int newX, int newY);
-        bool IsSquareUnderAttack(int x, int y, Piece::Site site) const;
-        bool CheckIfPathIsClear(const Piece &piece, int newX, int newY) const;
-        bool CheckIfMoveIsProper(int newX, int newY,
-                                 const std::shared_ptr<Piece> &piece) const;
+        bool SimulateMoveAndCheckForCheck(const int& newX, const int& newY);
 
-        Piece* FindKingOfSite(Piece::Site site);
+        bool CheckCheck() const;
+        bool CheckSite(const Piece &piece) const;
+        bool IsTryingToCastle(const int& newX, const int& newY) const;
+        bool IsSquareUnderAttack(const int& x, const int& y, const Piece::Site& site) const;
+        bool CheckIfPathIsClear(const Piece &piece, const int& newX, const int& newY) const;
+        bool CheckIfMoveIsProper(const int& newX, const int& newY,const std::shared_ptr<Piece> &piece) const;
+        bool IsPathUnderAttack(const int& xStart, const int& xEnd, const int& y, const Piece::Site& site) const;
 
+        Piece* FindKingOfSite(Piece::Site site) const;
     };
 
 } // namespace Chess

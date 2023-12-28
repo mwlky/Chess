@@ -8,10 +8,10 @@ namespace Chess {
     class Piece {
     public:
         enum class Site {
-            BLACK, WHITE, NONE
+            BLACK, WHITE
         };
         enum class MoveType {
-            NORMAL, CASTLE, ENPASSANT, TAKE
+            NORMAL, TAKE
         };
 
         Piece() = default;
