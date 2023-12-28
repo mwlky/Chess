@@ -43,6 +43,7 @@ namespace Chess {
         void DoCastle(int newX);
         void DoNormalMove(int newX, int newY);
 
+        bool SimulateMoveAndCheckForCheck(const int& newX, const int& newY);
         bool CheckCheck();
         bool HasTriedToSaveKing(const int& newX, const int& newY);
         bool IsCheckmate(Piece::Site site);
