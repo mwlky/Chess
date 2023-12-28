@@ -154,7 +154,15 @@ namespace Chess {
         bool isCastling = IsTryingToCastle(newX, newY);
 
         if(CheckCheck()){
+            if(!HasTriedToSaveKing(newX, newY))
+            {
+                CancelMove();
+                return;
+            }
 
+            SwitchSite();
+            DoNormalMove(newX, newY);
+            return;
         }
 
         if (isCastling) {
@@ -174,6 +182,7 @@ namespace Chess {
         m_SquareThatPawnIsDraggedFrom->UnassignPiece();
         m_SquareThatPawnIsDraggedFrom = nullptr;
 
+        m_Squares.squares[newX][newY].UnassignPiece();
         m_Squares.squares[newX][newY].AssignPiece(m_DraggedPawn, true);
         m_DraggedPawn = nullptr;
     }
@@ -387,5 +396,34 @@ namespace Chess {
         }
 
         return nullptr;
+    }
+
+    bool Board::HasTriedToSaveKing(const int& newX, const int& newY) {
+        auto king = dynamic_cast<King*>(m_DraggedPawn.get());
+
+        if(king != nullptr)
+        {
+            if(king->IsValidMove(newX, newY, Piece::MoveType::NORMAL) && !IsSquareUnderAttack(newX, newY, king->GetSite())){
+                if(CheckIfPathIsClear(*king, newX, newY))
+                    return true;
+            }
+        } else{
+
+            if(m_DraggedPawn->IsValidMove(newX, newY, Piece::MoveType::NORMAL) || m_DraggedPawn->IsValidMove(newX, newY, Piece::MoveType::TAKE)){
+
+                auto king = FindKingOfSite(m_CurrentMove);
+
+                m_SquareThatPawnIsDraggedFrom->UnassignPiece();
+                m_Squares.squares[newX][newY].AssignPiece(m_DraggedPawn, true);
+
+                if(!IsSquareUnderAttack(king->GetBoardXPosition(), king->GetBoardYPosition(), m_CurrentMove))
+                    return true;
+
+
+                return false;
+            }
+        }
+
+        return false;
     }
 } // namespace Chess

@@ -44,6 +44,7 @@ namespace Chess {
         void DoNormalMove(int newX, int newY);
 
         bool CheckCheck();
+        bool HasTriedToSaveKing(const int& newX, const int& newY);
         bool IsCheckmate(Piece::Site site);
         bool IsPathUnderAttack(int xStart, int xEnd, int y, Piece::Site site) const;
         bool CheckSite(const Piece &piece);
