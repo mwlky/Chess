@@ -426,8 +426,10 @@ namespace Chess {
     }
 
     bool Board::SimulateMoveAndCheckForCheck(const int &newX, const int &newY) {
-        if(!(m_DraggedPawn->IsValidMove(newX, newY, Piece::MoveType::NORMAL) || m_DraggedPawn->IsValidMove(newX, newY, Piece::MoveType::NORMAL)))
+
+        if(!CheckIfMoveIsProper(newX, newY, m_DraggedPawn)){
             return false;
+        }
 
         int fromX = m_DraggedPawn->GetBoardXPosition();
         int fromY = m_DraggedPawn->GetBoardYPosition();
