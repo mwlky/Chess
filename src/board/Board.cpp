@@ -3,8 +3,8 @@
 namespace Chess {
     void Board::RenderBoard() {
 
-        for (auto & square : m_Squares.squares) {
-            for (auto & j : square) {
+        for (auto &square: m_Squares.squares) {
+            for (auto &j: square) {
                 j.Render();
             }
         }
@@ -149,7 +149,7 @@ namespace Chess {
 
         auto piece = m_Squares.squares[newX][newY].GetAssignedPawn();
 
-        if (!CheckSite(*m_DraggedPawn)){
+        if (!CheckSite(*m_DraggedPawn)) {
             CancelMove();
             return;
         }
@@ -174,6 +174,10 @@ namespace Chess {
 
         SwitchSite();
         DoNormalMove(newX, newY);
+
+        if(CheckCheckmate(Piece::Site::WHITE)){
+            std::cout << "Checkmate" << std::endl;
+        }
     }
 
     void Board::CheckProcedures(const int &newX, const int &newY) {
@@ -186,7 +190,7 @@ namespace Chess {
         DoNormalMove(newX, newY);
     }
 
-    void Board::DoNormalMove(const int& newX, const int& newY) {
+    void Board::DoNormalMove(const int &newX, const int &newY) {
         m_SquareThatPawnIsDraggedFrom->UnassignPiece();
         m_SquareThatPawnIsDraggedFrom = nullptr;
 
@@ -195,7 +199,7 @@ namespace Chess {
         m_DraggedPawn = nullptr;
     }
 
-    bool Board::IsTryingToCastle(const int& newX, const int& newY) const {
+    bool Board::IsTryingToCastle(const int &newX, const int &newY) const {
         if (typeid(*m_DraggedPawn) != typeid(King))
             return false;
 
@@ -222,7 +226,7 @@ namespace Chess {
         m_DraggedPawn = nullptr;
     }
 
-    bool Board::CheckIfMoveIsProper(const int& newX, const int& newY,
+    bool Board::CheckIfMoveIsProper(const int &newX, const int &newY,
                                     const std::shared_ptr<Piece> &piece) const {
         Piece::MoveType moveType = Piece::MoveType::NORMAL;
 
@@ -237,10 +241,11 @@ namespace Chess {
             isValid = m_DraggedPawn->IsValidMove(newX, newY, moveType);
         } else
             isValid = m_DraggedPawn->IsValidMove(newX, newY, moveType);
+
         return isValid;
     }
 
-    bool Board::CheckIfPathIsClear(const Piece &piece, const int& newX, const int& newY) const {
+    bool Board::CheckIfPathIsClear(const Piece &piece, const int &newX, const int &newY) const {
 
         if (typeid(Knight) == typeid(piece))
             return true;
@@ -287,10 +292,10 @@ namespace Chess {
             m_CurrentMove = Piece::Site::BLACK;
     }
 
-    bool Board::IsSquareUnderAttack(const int& x, const int& y, const Piece::Site& site) const {
+    bool Board::IsSquareUnderAttack(const int &x, const int &y, const Piece::Site &site) const {
 
-        for (const auto & square : m_Squares.squares) {
-            for (const auto & j : square) {
+        for (const auto &square: m_Squares.squares) {
+            for (const auto &j: square) {
                 auto attackingPiece = j.GetAssignedPawn();
 
                 if (attackingPiece != nullptr && attackingPiece->GetSite() != site)
@@ -303,7 +308,7 @@ namespace Chess {
         return false;
     }
 
-    void Board::DoCastle(const int& newX) {
+    void Board::DoCastle(const int &newX) {
         int deltaX = newX - m_DraggedPawn->GetBoardXPosition();
 
         int rookX = (deltaX > 0) ? 7 : 0;
@@ -321,7 +326,7 @@ namespace Chess {
         }
     }
 
-    bool Board::IsPathUnderAttack(const int& xStart, const int& xEnd, const int& y, const Piece::Site& site) const {
+    bool Board::IsPathUnderAttack(const int &xStart, const int &xEnd, const int &y, const Piece::Site &site) const {
         int direction = xEnd - xStart;
         int directionNormalized = direction > 0 ? 1 : -1;
 
@@ -371,7 +376,7 @@ namespace Chess {
     }
 
     bool Board::HasTriedToSaveKing(const int &newX, const int &newY) {
-        Piece* king = dynamic_cast<King *>(m_DraggedPawn.get());
+        Piece *king = dynamic_cast<King *>(m_DraggedPawn.get());
 
         if (king != nullptr) {
             if (king->IsValidMove(newX, newY, Piece::MoveType::NORMAL) &&
@@ -381,9 +386,9 @@ namespace Chess {
             }
         } else {
 
-            if (m_DraggedPawn->IsValidMove(newX, newY, Piece::MoveType::NORMAL) ||
-                m_DraggedPawn->IsValidMove(newX, newY, Piece::MoveType::TAKE)) {
+            Piece::MoveType moveType = GetMoveType(newX, newY);
 
+            if (m_DraggedPawn->IsValidMove(newX, newY, moveType)) {
                 king = FindKingOfSite(m_CurrentMove);
 
                 m_SquareThatPawnIsDraggedFrom->UnassignPiece();
@@ -417,5 +422,52 @@ namespace Chess {
         testedSquare.UnassignPiece();
 
         return isCheck;
+    }
+
+    bool Board::CheckCheckmate(Piece::Site site) {
+        Piece *king = FindKingOfSite(site);
+
+        if (king == nullptr)
+            return false;
+
+        if (!IsSquareUnderAttack(king->GetBoardXPosition(), king->GetBoardYPosition(), site))
+            return false;
+
+        for (auto &square: m_Squares.squares) {
+            for (const auto &y: square) {
+                auto piece = y.GetAssignedPawn();
+
+                if (piece != nullptr && piece->GetSite() == site) {
+                    for (int newX = 0; newX < 8; ++newX) {
+                        for (int newY = 0; newY < 8; ++newY) {
+                            if (IsValidMove(piece, newX, newY)) {
+                                if (!SimulateMoveAndCheckForCheck(newX, newY)) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    bool Board::IsValidMove(const std::shared_ptr<Piece> &piece, int toX, int toY) {
+        if (piece == nullptr)
+            return false;
+
+        Piece::MoveType moveType = GetMoveType(toX, toY);
+
+        return piece->IsValidMove(toX, toY, moveType) && CheckIfPathIsClear(*piece, toX, toY);
+    }
+
+    Piece::MoveType Board::GetMoveType(int newX, int newY) {
+        Piece::MoveType moveType = (m_Squares.squares[newX][newY].GetAssignedPawn() != nullptr)
+                                   ? Piece::MoveType::TAKE
+                                   : Piece::MoveType::NORMAL;
+
+        return moveType;
     }
 } // namespace Chess
