@@ -12,6 +12,7 @@ namespace Chess{
 
     Piece::~Piece() {
         SDL_DestroyTexture(m_Texture);
+        std::cout << "Dead" << std::endl;
     }
 
     void Piece::Render() {
@@ -29,6 +30,9 @@ namespace Chess{
 
     bool Piece::IsValidMove(int x, int y, MoveType type) const{
         if(!IsInsideBoard(x, y))
+            return false;
+
+        if(m_XPos == x && m_YPos == y)
             return false;
 
         return true;

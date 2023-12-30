@@ -32,10 +32,12 @@ namespace Chess {
     private:
         Squares m_Squares{};
 
+
         Piece::Site m_CurrentMove = Piece::Site::WHITE;
 
         Square* m_SquareThatPawnIsDraggedFrom = nullptr;
         std::shared_ptr<Piece> m_DraggedPawn = nullptr;
+        std::shared_ptr<Piece> m_TempPawn = nullptr;
 
         void SetPieces();
         void SwitchSite();
@@ -46,7 +48,7 @@ namespace Chess {
         bool CheckCheckmate(Piece::Site site);
 
         bool HasTriedToSaveKing(const int& newX, const int& newY);
-        bool SimulateMoveAndCheckForCheck(std::shared_ptr<Piece>& piece, const int& newX, const int& newY);
+        bool SimulateMoveAndCheckForCheck(std::shared_ptr<Piece> piece, const int& newX, const int& newY);
 
         bool CheckCheck() const;
         bool CheckSite(const Piece &piece) const;

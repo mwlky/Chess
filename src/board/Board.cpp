@@ -166,18 +166,17 @@ namespace Chess {
         if (isCastling)
             DoCastle(newX);
 
-        else if (!isValid || !CheckIfPathIsClear(*m_DraggedPawn, newX, newY)) {
+        else if (!isValid) {
             CancelMove();
 
             return;
         }
 
-        SwitchSite();
         DoNormalMove(newX, newY);
+        SwitchSite();
 
-        if (CheckCheckmate(m_CurrentMove)) {
-            std::cout << "Checkmate" << std::endl;
-        }
+        if (CheckCheckmate(m_CurrentMove))
+            m_CurrentMove = Piece::Site::NONE;
     }
 
     void Board::CheckProcedures(const int &newX, const int &newY) {
@@ -186,8 +185,8 @@ namespace Chess {
             return;
         }
 
-        SwitchSite();
         DoNormalMove(newX, newY);
+        SwitchSite();
     }
 
     void Board::DoNormalMove(const int &newX, const int &newY) {
@@ -227,18 +226,18 @@ namespace Chess {
     }
 
     bool Board::CheckIfMoveIsProper(const int &newX, const int &newY,
-                                    const std::shared_ptr<Piece> &piece){
+                                    const std::shared_ptr<Piece> &piece) {
 
         Piece::MoveType moveType = GetMoveType(newX, newY);
         auto pawnOnTargetSquare = m_Squares.squares[newX][newY].GetAssignedPawn();
 
         bool isValid = false;
 
-        if (pawnOnTargetSquare != nullptr && piece->GetSite() == m_DraggedPawn->GetSite())
+        if (pawnOnTargetSquare != nullptr && piece->GetSite() == pawnOnTargetSquare->GetSite())
             isValid = false;
 
         else
-            isValid = piece->IsValidMove(newX, newY, moveType);
+            isValid = piece->IsValidMove(newX, newY, moveType) && CheckIfPathIsClear(*piece, newX, newY);
 
         return isValid;
     }
@@ -379,7 +378,7 @@ namespace Chess {
         if (king != nullptr) {
             auto pawnOnTargetSquare = m_Squares.squares[newX][newY].GetAssignedPawn();
 
-            if(pawnOnTargetSquare != nullptr && pawnOnTargetSquare->GetSite() == m_CurrentMove)
+            if (pawnOnTargetSquare != nullptr && pawnOnTargetSquare->GetSite() == m_CurrentMove)
                 return false;
 
             if (king->IsValidMove(newX, newY, Piece::MoveType::NORMAL) &&
@@ -389,40 +388,40 @@ namespace Chess {
             }
         } else {
 
-            Piece::MoveType moveType = GetMoveType(newX, newY);
-
-            if (CheckIfMoveIsProper(newX, newY, m_DraggedPawn)) {
-                king = FindKingOfSite(m_CurrentMove);
-
-                m_SquareThatPawnIsDraggedFrom->UnassignPiece();
-                m_Squares.squares[newX][newY].AssignPiece(m_DraggedPawn, true);
-
-                if (!IsSquareUnderAttack(king->GetBoardXPosition(), king->GetBoardYPosition(), m_CurrentMove))
-                    return true;
-
+            if (!CheckIfMoveIsProper(newX, newY, m_DraggedPawn))
                 return false;
-            }
+
+
+            if (!SimulateMoveAndCheckForCheck(m_DraggedPawn, newX, newY))
+                return true;
+
+            return false;
         }
 
         return false;
     }
 
-    bool Board::SimulateMoveAndCheckForCheck(std::shared_ptr<Piece> &piece, const int &newX, const int &newY) {
-
+    bool Board::SimulateMoveAndCheckForCheck(std::shared_ptr<Piece> piece, const int &newX, const int &newY) {
         int fromX = piece->GetBoardXPosition();
         int fromY = piece->GetBoardYPosition();
 
         Square &originalSquare = m_Squares.squares[fromX][fromY];
         Square &testedSquare = m_Squares.squares[newX][newY];
 
-        testedSquare.AssignPiece(piece, true);
+        auto copiedPiece = testedSquare.GetAssignedPawn();
+
+        testedSquare.AssignPiece(piece, false);
         originalSquare.UnassignPiece();
 
         auto king = FindKingOfSite(m_CurrentMove);
         bool isCheck = IsSquareUnderAttack(king->GetBoardXPosition(), king->GetBoardYPosition(), m_CurrentMove);
 
-        originalSquare.AssignPiece(piece, true);
-        testedSquare.UnassignPiece();
+        originalSquare.AssignPiece(piece, false);
+
+        if (copiedPiece == nullptr)
+            testedSquare.UnassignPiece();
+        else
+            testedSquare.AssignPiece(copiedPiece, false);
 
         return isCheck;
     }
@@ -436,27 +435,26 @@ namespace Chess {
         if (!IsSquareUnderAttack(king->GetBoardXPosition(), king->GetBoardYPosition(), site))
             return false;
 
-//        for (int x = 0; x < 8; ++x) {
-//            for (int y = 0; y < 8; ++y) {
-//                auto piece = m_Squares.squares[x][y].GetAssignedPawn();
-//
-//                if (piece == nullptr)
-//                    continue;
-//
-//                if (piece->GetSite() != site)
-//                    continue;
-//
-//                for (int newX = 0; newX < 8; ++newX) {
-//                    for (int newY = 0; newY < 8; ++newY) {
-//                        if (!piece->IsValidMove(newX, newY, GetMoveType(newX, newY)))
-//                            continue;
-//
-//                        if (SimulateMoveAndCheckForCheck(piece, newX, newY))
-//                            return false;
-//                    }
-//                }
-//            }
-//        }
+        for (auto &square: m_Squares.squares) {
+            for (const auto &y: square) {
+                auto piece = y.GetAssignedPawn();
+
+                if (piece == nullptr || piece->GetSite() != site)
+                    continue;
+
+                for (int newX = 0; newX < 8; ++newX) {
+                    for (int newY = 0; newY < 8; ++newY) {
+                        if (!CheckIfMoveIsProper(newX, newY, piece))
+                            continue;
+
+                        if (SimulateMoveAndCheckForCheck(piece, newX, newY))
+                            continue;
+
+                        return false;
+                    }
+                }
+            }
+        }
 
         return true;
     }

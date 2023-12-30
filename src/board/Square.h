@@ -38,7 +38,7 @@ namespace Chess {
         }
 
         void UnassignPiece(){
-            m_Piece.reset();
+            m_Piece = nullptr;
         }
 
         SDL_Rect GetPosition() const { return m_Rect; }

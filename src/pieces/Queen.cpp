@@ -5,7 +5,7 @@ namespace Chess {
     }
 
     bool Queen::IsValidMove(int newX, int newY, MoveType type) const {
-        if(!Piece::IsInsideBoard(newX, newY))
+        if(!Piece::IsValidMove(newX, newY, type))
             return false;
 
         if(newX == m_XPos || m_YPos == newY)

@@ -4,9 +4,8 @@ namespace Chess {
     Pawn::Pawn(const char *sprite, Site site, int x, int y) : Piece(sprite, site, x, y) {}
 
     bool Pawn::IsValidMove(int newX, int newY, MoveType type) const {
-        if(!Piece::IsInsideBoard(newX, newY)){
+        if(!Piece::IsValidMove(newX, newY, type))
             return false;
-        }
 
         int direction = (m_Site == Site::WHITE) ? -1 : 1;
 
