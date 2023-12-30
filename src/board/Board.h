@@ -46,15 +46,14 @@ namespace Chess {
         bool CheckCheckmate(Piece::Site site);
 
         bool HasTriedToSaveKing(const int& newX, const int& newY);
-        bool SimulateMoveAndCheckForCheck(const int& newX, const int& newY);
+        bool SimulateMoveAndCheckForCheck(std::shared_ptr<Piece>& piece, const int& newX, const int& newY);
 
-        bool IsValidMove(const std::shared_ptr<Piece>& piece, int toX, int toY);
         bool CheckCheck() const;
         bool CheckSite(const Piece &piece) const;
         bool IsTryingToCastle(const int& newX, const int& newY) const;
         bool IsSquareUnderAttack(const int& x, const int& y, const Piece::Site& site) const;
         bool CheckIfPathIsClear(const Piece &piece, const int& newX, const int& newY) const;
-        bool CheckIfMoveIsProper(const int& newX, const int& newY,const std::shared_ptr<Piece> &piece) const;
+        bool CheckIfMoveIsProper(const int& newX, const int& newY,const std::shared_ptr<Piece> &piece);
         bool IsPathUnderAttack(const int& xStart, const int& xEnd, const int& y, const Piece::Site& site) const;
 
         Piece* FindKingOfSite(Piece::Site site) const;
