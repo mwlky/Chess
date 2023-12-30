@@ -14,7 +14,7 @@ namespace Chess {
 
             bool isDiagnal = abs(newX - m_XPos) == abs(newY - m_YPos);
 
-            if ( isDiagnal && abs(newX - m_XPos) <= 1 && abs(newY - m_YPos) <= 1) {
+            if ( isDiagnal && newX - m_XPos <= direction && newY - m_YPos <= direction) {
                 return true;
             }
 

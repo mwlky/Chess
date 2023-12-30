@@ -149,7 +149,11 @@ namespace Chess {
 
         auto piece = m_Squares.squares[newX][newY].GetAssignedPawn();
 
-        bool checkSite = CheckSite(*m_DraggedPawn);
+        if (!CheckSite(*m_DraggedPawn)){
+            CancelMove();
+            return;
+        }
+
         bool isValid = CheckIfMoveIsProper(newX, newY, piece);
         bool isCastling = IsTryingToCastle(newX, newY);
         bool checkAfterMove = isValid && SimulateMoveAndCheckForCheck(newX, newY);
@@ -162,7 +166,7 @@ namespace Chess {
         if (isCastling)
             DoCastle(newX);
 
-        else if (!isValid || !CheckIfPathIsClear(*m_DraggedPawn, newX, newY) || !checkSite) {
+        else if (!isValid || !CheckIfPathIsClear(*m_DraggedPawn, newX, newY)) {
             CancelMove();
 
             return;
