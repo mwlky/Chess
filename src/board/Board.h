@@ -46,6 +46,7 @@ namespace Chess {
         void DoCastle(const int& newX);
         void DoNormalMove(const int& newX, const int& newY);
         void CheckProcedures(const int &newX, const int &newY);
+        void EnPassantLogic(int newX, int newY, const std::shared_ptr<Piece>& piece);
         bool CheckCheckmate(Piece::Site site);
 
         bool HasTriedToSaveKing(const int& newX, const int& newY);

@@ -3,11 +3,9 @@
 namespace Chess {
 void Board::RenderBoard() {
 
-  for (auto &square : m_Squares.squares) {
-    for (auto &j : square) {
+  for (auto &square : m_Squares.squares)
+    for (auto &j : square)
       j.Render();
-    }
-  }
 }
 
 void Board::CreateBoard(int screenWidth, int screenHeight) {
@@ -201,7 +199,6 @@ void Board::DoNormalMove(const int &newX, const int &newY) {
     m_LastMovedPawn->EnPassantPossible = false;
 
   m_LastMovedPawn = dynamic_cast<Pawn *>(m_DraggedPawn.get());
-  std::cout << "Last moved pawn: " << m_LastMovedPawn << std::endl;
 
   m_DraggedPawn = nullptr;
 }
@@ -246,8 +243,10 @@ bool Board::CheckIfMoveIsProper(const int &newX, const int &newY,
       piece->GetSite() == pawnOnTargetSquare->GetSite())
     isValid = false;
 
-  else if (moveType == Piece::MoveType::EN_PASSANT)
+  else if (moveType == Piece::MoveType::EN_PASSANT) {
     isValid = true;
+    EnPassantLogic(newX, newY, piece);
+  }
 
   else
     isValid = piece->IsValidMove(newX, newY, moveType) &&
@@ -507,7 +506,8 @@ bool Board::IsEnPassant(int newX, int newY,
   auto pawnToTake = dynamic_cast<Pawn *>(
       m_Squares.squares[newX][newY + direction].GetAssignedPawn().get());
 
-  bool isDiagnal = movedPawn->IsValidMove(newX, newY, Piece::MoveType::EN_PASSANT);
+  bool isDiagnal = abs(newX - movedPawn->GetBoardXPosition()) ==
+                   abs(newY - movedPawn->GetBoardYPosition());
 
   if (!isDiagnal)
     return false;
@@ -517,5 +517,14 @@ bool Board::IsEnPassant(int newX, int newY,
       return true;
 
   return false;
+}
+
+void Board::EnPassantLogic(int newX, int newY,
+                           const std::shared_ptr<Piece> &piece) {
+
+  int direction = piece->GetSite() == Piece::Site::WHITE ? 1 : -1;
+
+  m_Squares.squares[newX][newY + direction].UnassignPiece();
+  
 }
 } // namespace Chess
