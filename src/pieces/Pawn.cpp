@@ -9,7 +9,7 @@ namespace Chess {
 
         int direction = (m_Site == Site::WHITE) ? -1 : 1;
 
-        if(type == MoveType::TAKE){
+        if(type == MoveType::TAKE || type == MoveType::EN_PASSANT){
 
             bool isDiagnal = abs(newX - m_XPos) == abs(newY - m_YPos);
 

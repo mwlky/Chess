@@ -14,5 +14,7 @@ class Pawn : public Piece {
         ~Pawn() override = default;
 
         bool IsValidMove(int newX, int newY, MoveType type) const override;
+        
+        bool EnPassantPossible = false;
     };
 } // namespace Chess

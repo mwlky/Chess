@@ -11,7 +11,7 @@ namespace Chess {
             BLACK, WHITE, NONE
         };
         enum class MoveType {
-            NORMAL, TAKE
+            NORMAL, TAKE, EN_PASSANT
         };
 
         Piece() = default;

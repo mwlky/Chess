@@ -1,3 +1,4 @@
+#include <memory>
 #ifndef CHESS_BOARD_H
 
 #include "../sdl/SpriteManager.h"
@@ -37,7 +38,7 @@ namespace Chess {
 
         Square* m_SquareThatPawnIsDraggedFrom = nullptr;
         std::shared_ptr<Piece> m_DraggedPawn = nullptr;
-        std::shared_ptr<Piece> m_TempPawn = nullptr;
+        Pawn* m_LastMovedPawn = nullptr;
 
         void SetPieces();
         void SwitchSite();
@@ -50,6 +51,8 @@ namespace Chess {
         bool HasTriedToSaveKing(const int& newX, const int& newY);
         bool SimulateMoveAndCheckForCheck(std::shared_ptr<Piece> piece, const int& newX, const int& newY);
 
+        bool IsEnPassant(int newX, int newY, const std::shared_ptr<Piece>& piece);
+
         bool CheckCheck() const;
         bool CheckSite(const Piece &piece) const;
         bool IsTryingToCastle(const int& newX, const int& newY) const;
@@ -60,7 +63,7 @@ namespace Chess {
 
         Piece* FindKingOfSite(Piece::Site site) const;
 
-        Piece::MoveType GetMoveType(int newX, int newY);
+        Piece::MoveType GetMoveType(int newX, int newY, const std::shared_ptr<Piece>& piece);
     };
 
 } // namespace Chess

@@ -12,7 +12,6 @@ namespace Chess{
 
     Piece::~Piece() {
         SDL_DestroyTexture(m_Texture);
-        std::cout << "Dead" << std::endl;
     }
 
     void Piece::Render() {
