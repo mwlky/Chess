@@ -1,4 +1,5 @@
 #include "Board.h"
+#include <algorithm>
 
 namespace Chess {
 void Board::RenderBoard() {
@@ -500,11 +501,14 @@ bool Board::IsEnPassant(int newX, int newY,
 
   int direction = piece->GetSite() == Piece::Site::WHITE ? 1 : -1;
 
-  if (m_Squares.squares[newX][newY + direction].GetAssignedPawn() == nullptr)
+  if (m_Squares.squares[newX][std::max(0, newY + direction)]
+          .GetAssignedPawn() == nullptr)
     return false;
 
   auto pawnToTake = dynamic_cast<Pawn *>(
-      m_Squares.squares[newX][newY + direction].GetAssignedPawn().get());
+      m_Squares.squares[newX][std::max(0, newY + direction)]
+          .GetAssignedPawn()
+          .get());
 
   bool isDiagnal = abs(newX - movedPawn->GetBoardXPosition()) ==
                    abs(newY - movedPawn->GetBoardYPosition());
@@ -525,6 +529,5 @@ void Board::EnPassantLogic(int newX, int newY,
   int direction = piece->GetSite() == Piece::Site::WHITE ? 1 : -1;
 
   m_Squares.squares[newX][newY + direction].UnassignPiece();
-  
 }
 } // namespace Chess
