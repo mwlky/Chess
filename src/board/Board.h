@@ -24,29 +24,34 @@ namespace Chess {
     class Board {
     public:
 
-        void RenderBoard();
+        void Tick();
         void ReleasePiece();
-        void MoveDraggedPawn();
+
         void TakePiece(int x, int y);
         void CreateBoard(int screenWidth, int screenHeight);
 
     private:
         Squares m_Squares{};
 
-
         Piece::Site m_CurrentMove = Piece::Site::WHITE;
 
         Square* m_SquareThatPawnIsDraggedFrom = nullptr;
         std::shared_ptr<Piece> m_DraggedPawn = nullptr;
+
+        Pawn* m_PawnToPromote = nullptr;
         Pawn* m_LastMovedPawn = nullptr;
 
+        void MoveDraggedPawn();
+        void RenderBoard();
         void SetPieces();
         void SwitchSite();
         void CancelMove();
+        void CheckForPromotion();
         void DoCastle(const int& newX);
         void DoNormalMove(const int& newX, const int& newY);
         void CheckProcedures(const int &newX, const int &newY);
         void EnPassantLogic(int newX, int newY, const std::shared_ptr<Piece>& piece);
+        void PromotionLogic();
         bool CheckCheckmate(Piece::Site site);
 
         bool HasTriedToSaveKing(const int& newX, const int& newY);

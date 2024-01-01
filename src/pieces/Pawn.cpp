@@ -11,9 +11,10 @@ namespace Chess {
 
         if(type == MoveType::TAKE || type == MoveType::EN_PASSANT){
 
-            bool isDiagnal = abs(newX - m_XPos) == abs(newY - m_YPos);
+            int dx = newX - m_XPos;
+            int dy = newY - m_YPos;
 
-            if ( isDiagnal && newX - m_XPos <= direction && newY - m_YPos <= direction) {
+            if (abs(dx) == 1 && dy == direction) {
                 return true;
             }
 

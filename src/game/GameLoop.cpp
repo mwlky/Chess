@@ -78,8 +78,7 @@ namespace Chess {
 
         HandleEvents();
 
-        m_Board.MoveDraggedPawn();
-        m_Board.RenderBoard();
+        m_Board.Tick();
 
         SDL_RenderPresent(Window::Renderer);
     }
