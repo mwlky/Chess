@@ -7,7 +7,7 @@ Chessy is a C++ implementation of a chess game using the SDL2 library. It faithf
 
 ## Manually build from the source code
 
-- Clone repository `git clone https://github.com/mwlky/Chess.git`
+- Clone repository `git clone https://github.com/mwlky/Chessy.git`
 - go to root directory `cd Chess/`
 - run cmake `cmake .` to build the project
 - Enjoy!
