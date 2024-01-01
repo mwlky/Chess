@@ -143,8 +143,8 @@ namespace Chess {
         int mouseX, mouseY;
         SDL_GetMouseState(&mouseX, &mouseY);
 
-        int newX = mouseX / 100;
-        int newY = mouseY / 100;
+        int newX = mouseX / SQUARE_SIZE;
+        int newY = mouseY / SQUARE_SIZE;
 
         if (!CheckSite(*m_DraggedPawn)) {
             CancelMove();
@@ -182,7 +182,7 @@ namespace Chess {
             m_CurrentMove = Piece::Site::NONE;
     }
 
-    void Board::CheckProcedures(const int &newX, const int &newY) {
+    void Board::CheckProcedures(int newX, int newY) {
         if (!HasTriedToSaveKing(newX, newY)) {
             CancelMove();
             return;
@@ -192,7 +192,7 @@ namespace Chess {
         SwitchSite();
     }
 
-    void Board::DoNormalMove(const int &newX, const int &newY) {
+    void Board::DoNormalMove(int newX, int newY) {
         m_SquareThatPawnIsDraggedFrom->UnassignPiece();
         m_SquareThatPawnIsDraggedFrom = nullptr;
 
@@ -207,7 +207,7 @@ namespace Chess {
         m_DraggedPawn = nullptr;
     }
 
-    bool Board::IsTryingToCastle(const int &newX, const int &newY) const {
+    bool Board::IsTryingToCastle(int newX, int newY) const {
         if (typeid(*m_DraggedPawn) != typeid(King))
             return false;
 
@@ -235,7 +235,7 @@ namespace Chess {
         m_DraggedPawn = nullptr;
     }
 
-    bool Board::CheckIfMoveIsProper(const int &newX, const int &newY,
+    bool Board::CheckIfMoveIsProper(int newX, int newY,
                                     const std::shared_ptr<Piece> &piece) {
 
         Piece::MoveType moveType = GetMoveType(newX, newY, piece);
@@ -257,8 +257,8 @@ namespace Chess {
         return isValid;
     }
 
-    bool Board::CheckIfPathIsClear(const Piece &piece, const int &newX,
-                                   const int &newY) const {
+    bool Board::CheckIfPathIsClear(const Piece &piece, int newX,
+                                   int newY) const {
 
         if (typeid(Knight) == typeid(piece))
             return true;
@@ -305,8 +305,8 @@ namespace Chess {
             m_CurrentMove = Piece::Site::BLACK;
     }
 
-    bool Board::IsSquareUnderAttack(const int &x, const int &y,
-                                    const Piece::Site &site) const {
+    bool Board::IsSquareUnderAttack(int x, int y,
+                                    Piece::Site site) const {
 
         for (const auto &square: m_Squares.squares) {
             for (const auto &j: square) {
@@ -322,7 +322,7 @@ namespace Chess {
         return false;
     }
 
-    void Board::DoCastle(const int &newX) {
+    void Board::DoCastle(int newX) {
         int deltaX = newX - m_DraggedPawn->GetBoardXPosition();
 
         int rookX = (deltaX > 0) ? 7 : 0;
@@ -340,8 +340,8 @@ namespace Chess {
         }
     }
 
-    bool Board::IsPathUnderAttack(const int &xStart, const int &xEnd, const int &y,
-                                  const Piece::Site &site) const {
+    bool Board::IsPathUnderAttack(int xStart, int xEnd, int y,
+                                  Piece::Site site) const {
         int direction = xEnd - xStart;
         int directionNormalized = direction > 0 ? 1 : -1;
 
@@ -390,7 +390,7 @@ namespace Chess {
         return nullptr;
     }
 
-    bool Board::HasTriedToSaveKing(const int &newX, const int &newY) {
+    bool Board::HasTriedToSaveKing(int newX, int newY) {
         Piece *king = dynamic_cast<King *>(m_DraggedPawn.get());
 
         if (king != nullptr) {
@@ -420,7 +420,7 @@ namespace Chess {
     }
 
     bool Board::SimulateMoveAndCheckForCheck(std::shared_ptr<Piece> piece,
-                                             const int &newX, const int &newY) {
+                                             int newX, int newY) {
         int fromX = piece->GetBoardXPosition();
         int fromY = piece->GetBoardYPosition();
 

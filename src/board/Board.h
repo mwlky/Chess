@@ -24,6 +24,8 @@ namespace Chess {
     class Board {
     public:
 
+        Board() = default;
+
         void Tick();
         void ReleasePiece();
 
@@ -35,41 +37,40 @@ namespace Chess {
 
         Piece::Site m_CurrentMove = Piece::Site::WHITE;
 
-        Square* m_SquareThatPawnIsDraggedFrom = nullptr;
-        std::shared_ptr<Piece> m_DraggedPawn = nullptr;
-
         Pawn* m_PawnToPromote = nullptr;
         Pawn* m_LastMovedPawn = nullptr;
-
-        void MoveDraggedPawn();
-        void RenderBoard();
-        void SetPieces();
-        void SwitchSite();
-        void CancelMove();
-        void CheckForPromotion();
-        void DoCastle(const int& newX);
-        void DoNormalMove(const int& newX, const int& newY);
-        void CheckProcedures(const int &newX, const int &newY);
-        void EnPassantLogic(int newX, int newY, const std::shared_ptr<Piece>& piece);
-        void PromotionLogic();
-        bool CheckCheckmate(Piece::Site site);
-
-        bool HasTriedToSaveKing(const int& newX, const int& newY);
-        bool SimulateMoveAndCheckForCheck(std::shared_ptr<Piece> piece, const int& newX, const int& newY);
-
-        bool IsEnPassant(int newX, int newY, const std::shared_ptr<Piece>& piece);
-
-        bool CheckCheck() const;
-        bool CheckSite(const Piece &piece) const;
-        bool IsTryingToCastle(const int& newX, const int& newY) const;
-        bool IsSquareUnderAttack(const int& x, const int& y, const Piece::Site& site) const;
-        bool CheckIfPathIsClear(const Piece &piece, const int& newX, const int& newY) const;
-        bool CheckIfMoveIsProper(const int& newX, const int& newY,const std::shared_ptr<Piece> &piece);
-        bool IsPathUnderAttack(const int& xStart, const int& xEnd, const int& y, const Piece::Site& site) const;
+        Square* m_SquareThatPawnIsDraggedFrom = nullptr;
+        std::shared_ptr<Piece> m_DraggedPawn = nullptr;
 
         Piece* FindKingOfSite(Piece::Site site) const;
 
         Piece::MoveType GetMoveType(int newX, int newY, const std::shared_ptr<Piece>& piece);
+
+        void SetPieces();
+        void SwitchSite();
+        void CancelMove();
+        void RenderBoard();
+        void PromotionLogic();
+        void MoveDraggedPawn();
+        void CheckForPromotion();
+
+        void DoCastle(int newX);
+        void DoNormalMove(int newX, int newY);
+        void CheckProcedures(int newX, int newY);
+        void EnPassantLogic(int newX, int newY, const std::shared_ptr<Piece>& piece);
+
+        bool CheckCheck() const;
+        bool CheckSite(const Piece &piece) const;
+        bool IsTryingToCastle(int newX, int newY) const;
+        bool IsSquareUnderAttack(int x, int y, Piece::Site site) const;
+        bool CheckIfPathIsClear(const Piece &piece, int newX, int newY) const;
+        bool IsPathUnderAttack(int xStart, int xEnd, int y, Piece::Site site) const;
+
+        bool CheckCheckmate(Piece::Site site);
+        bool HasTriedToSaveKing(int newX, int newY);
+        bool IsEnPassant(int newX, int newY, const std::shared_ptr<Piece>& piece);
+        bool CheckIfMoveIsProper(int newX, int newY, const std::shared_ptr<Piece> &piece);
+        bool SimulateMoveAndCheckForCheck(std::shared_ptr<Piece> piece, int newX, int newY);
     };
 
 } // namespace Chess

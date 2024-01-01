@@ -2,6 +2,7 @@
 #include "../pieces/Piece.h"
 #include "../sdl/SpriteManager.h"
 #include "SDL.h"
+#include "../Macros.h"
 #include <memory>
 
 namespace Chess {
@@ -32,7 +33,7 @@ namespace Chess {
             int pawnY = m_Rect.y + (m_Rect.h - m_Piece->GetRect().h) / 2;
 
             m_Piece->SetGlobalPosition(pawnX, pawnY);
-            m_Piece->SetBoardPosition(m_Rect.x / 100, m_Rect.y / 100);
+            m_Piece->SetBoardPosition(m_Rect.x / SQUARE_SIZE, m_Rect.y / SQUARE_SIZE);
 
             if (!m_Piece->HasMoved && isMoveValid) {
                 m_Piece->HasMoved = isMoveValid;

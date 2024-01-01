@@ -2,8 +2,6 @@
 #include "SDL_events.h"
 #include "SDL_mouse.h"
 
-#define LOG(x) std::cout << x
-
 namespace Chess {
     void GameLoop::Run() {
         Chess::Window window;
@@ -44,8 +42,8 @@ namespace Chess {
                 break;
 
             case SDL_MOUSEBUTTONDOWN: {
-                int x = m_Event.button.x / 100;
-                int y = m_Event.button.y / 100;
+                int x = m_Event.button.x / SQUARE_SIZE;
+                int y = m_Event.button.y / SQUARE_SIZE;
                 MovePiece(x, y);
             }
                 break;

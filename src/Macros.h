@@ -1,6 +1,10 @@
 #ifndef CHESS_MACROS_H
 #define CHESS_MACROS_H
 
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 800
+
+#define SQUARE_SIZE 100
 
 #define PAWN_BLACK "../assets/Chess_Pawn_Black.png"
 #define BLACK_SQUARE "../assets/black.png"
