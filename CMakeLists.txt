@@ -35,3 +35,11 @@ add_executable(Chess src/main.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+
+add_custom_target(copy_assets
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        ${CMAKE_CURRENT_BINARY_DIR}/assets
+)
+
+add_dependencies(${PROJECT_NAME} copy_assets)
