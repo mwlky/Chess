@@ -5,7 +5,7 @@ Chessy is a C++ implementation of a chess game using the SDL2 library. It faithf
 
 ![App Screenshot](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm1iZzUzZDduMDgzNWtsMmxwb3cxdTZ6MjI4YzZ2OGYzZzFkeG51aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/iF46kuCKKQDW1Axens/source.gif)
 
-## Installation
+### Manually build from source code
 
 - Clone repository `git clone https://github.com/mwlky/Chess.git`
 - go to root directory `cd Chess/`
@@ -39,3 +39,5 @@ Your support and contributions will play a key role in making Chessy accessible 
 ## License 
 
 This project is licensed under the MIT License, allowing you to use, modify, and distribute the code freely.
+
+
